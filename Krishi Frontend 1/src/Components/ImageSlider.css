@@ -1,0 +1,420 @@
+.slider-container {
+  box-sizing: border-box;
+  padding: 40px 0 50px; /* Top and bottom spacing */
+  position: relative;
+  color: white;
+
+  /* Gradient from dark leafy green to soft green */
+ background-color: #e8ffdb44;
+
+  overflow: hidden;
+}
+
+/* ✅ Optional: subtle organic texture on top */
+.slider-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.09; /* very subtle texture */
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+
+
+.main-slider-title {
+  text-align: center;
+  font-size: 35px;
+  color: #06581d;
+  font-family: Merriweather, Lora, serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.image-slider {
+  height: 80vh; /* full section height */
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background image layer */
+.background-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transition: opacity 0.6s ease-in-out;
+  opacity: 1;
+  animation: zoomInOut 10s ease-in-out infinite; /* 🔁 slower, smoother zoom */
+}
+@keyframes zoomInOut {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07); /* slight zoom */
+  }
+}
+.background-layer.fade-out {
+  opacity: 0;
+  transform: scale(1.03);
+}
+
+/* Dimming overlay */
+.background-dimmer {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+/* Foreground content container */
+.slider-overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 60px;
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  flex-wrap: wrap;
+}
+
+.text-content {
+  max-width: 450px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.text-content.animate {
+  animation: fadeUp 0.6s ease;
+}
+
+.text-content h2 {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.text-content h3 {
+  font-size: 25px;
+  color: #60e560d2;
+  margin-top: -5px;
+}
+
+.text-content p {
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+.see-more {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(13, 223, 76, 0.2);
+  transition: all 0.3s ease;
+}
+
+.see-more:hover {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Card carousel */
+.card-carousel {
+  display: flex;
+  flex: 1;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-left: 40px;
+}
+
+.card {
+  position: relative;
+  width: 200px;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transform-origin: center;
+}
+
+.card-title-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  backdrop-filter: blur(3px);
+}
+
+.card:hover {
+  transform: scale(1.15);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔁 Responsive Adjustments */
+@media (max-width: 768px) {
+  .slider-overlay {
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .card-carousel {
+    padding-left: 0;
+    justify-content: center;
+  }
+
+  .text-content {
+    max-width: 100%;
+  }
+}
+/* Enhanced Heading Style */
+.enhanced-title {
+  position: relative;
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: transparent;
+  background: linear-gradient(90deg, #6eff91, #0c9b3c, #a0f57e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeUp 1s ease;
+}
+
+/* Optional: Glowing underline */
+.enhanced-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #9eff7a, #31c84f, #a7ffba);
+  border-radius: 2px;
+  box-shadow: 0 0 10px #00ff80aa;
+}
+
+/* AOS animation already enabled, but add animation fill */
+[data-aos] {
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+}
+
+/* Wrapper with dark glass background */
+.slider-heading-wrapper {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 20px;
+  padding: 15px 56px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+}
+
+/* Glowing gradient heading */
+.enhanced-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
+  font-weight: 700;
+  color: transparent;
+  background: linear-gradient(90deg, #a7ffb3, #3cff77, #58c99f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-align: center;
+  margin: 0;
+  animation: fadeUp 1s ease;
+  letter-spacing: 1px;
+}
+
+/* Optional: glow line under title */
+.enhanced-title::after {
+  content: '';
+  display: block;
+  margin: 10px auto 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #00ff88, #aaffcc);
+  border-radius: 50px;
+  box-shadow: 0 0 10px #00ff88;
+}
+
+/* AOS animation (just in case) */
+[data-aos] {
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+}
+
+/* Responsive Tweak */
+@media (max-width: 768px) {
+  .slider-heading-wrapper {
+    padding: 14px 20px;
+    margin-bottom: 30px;
+  }
+
+  .enhanced-title {
+    font-size: 28px;
+  }
+}
+
+.see-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(13, 223, 76, 0.3);
+  transition: all 0.35s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.see-more i {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.see-more:hover {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.see-more:hover i {
+  transform: rotate(10deg) scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .slider-container {
+    padding: 60px 0 80px;
+  }
+
+  .image-slider {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .slider-overlay {
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .text-content {
+    max-width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .text-content h2 {
+    font-size: 26px;
+  }
+
+  .text-content h3 {
+    font-size: 18px;
+  }
+
+  .text-content p {
+    font-size: 13px;
+  }
+
+  .see-more {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .card-carousel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 10px;
+    justify-items: center;
+    overflow: hidden; /* ❌ no scroll */
+  }
+
+  .card {
+    width: 140px;
+    height: 220px;
+    flex-shrink: 0;
+  }
+
+  .enhanced-title {
+    font-size: 26px;
+    line-height: 1.3;
+    padding: 5px;
+  }
+
+  .slider-heading-wrapper {
+    padding: 14px 20px;
+    margin-bottom: 30px;
+  }
+}
+
+
+

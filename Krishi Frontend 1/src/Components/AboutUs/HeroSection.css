@@ -1,0 +1,864 @@
+/* Left-Aligned Compact Green Hero */
+.ab-banner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url('../../Assets/Images/About-us-banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  text-align: left;
+  padding: 2rem;
+}
+
+.ab-banner-content {
+  z-index: 2;
+  max-width: 800px;
+  width: 100%;
+  height: 100%;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.ab-text-container {
+  max-width: 900px;
+  margin: 0;
+}
+
+.ab-main-title {
+  font-size: clamp(3rem, 4vw, 5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+  color: #f5f5f5;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  display: inline;
+}
+
+.ab-title-emphasis {
+  background: linear-gradient(90deg, #84cc16, #a3e635, #d9f99d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.ab-title-emphasis::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+              transparent, 
+              rgba(163, 230, 53, 0.6), 
+              transparent);
+  border-radius: 2px;
+}
+
+.ab-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, 
+              rgba(163, 230, 53, 0.8), 
+              transparent);
+  margin: 1.5rem 0;
+  transform-origin: left;
+}
+
+.ab-subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.5;
+  font-weight: 300;
+  color: #e0e0e0;
+  max-width: 500px;
+  margin: 0 0 1.5rem 0;
+}
+
+.ab-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(90deg, #84cc16, #a3e635);
+  color: #1a2e05;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(132, 204, 22, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 0;
+}
+
+.ab-cta-button:hover {
+  background: linear-gradient(90deg, #7ab615, #94d32d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(132, 204, 22, 0.6);
+}
+
+.ab-cta-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.6s ease;
+}
+
+.ab-cta-button:hover::after {
+  left: 150%;
+}
+
+.ab-arrow-icon {
+  font-size: 1.1rem;
+  transition: transform 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+.ab-cta-button:hover .ab-arrow-icon {
+  transform: translateX(3px) rotate(-5deg);
+}
+
+.feature-icon {
+  color: black;
+  font-size: 1.1rem;
+  margin-right: 5px;
+  animation: zoomPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes zoomPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ENHANCED CAROUSEL STYLES */
+
+/* Dynamic Carousel Wrapper */
+.dynamic-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+}
+
+.hero-carousel {
+  height: 70vh;
+  width: 100%;
+}
+
+.hero-carousel .carousel-item {
+  height: 70vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Loading State */
+.carousel-loading {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #84cc16, #a3e635);
+  color: white;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Enhanced Admin Banner Slide - Dynamic Styling */
+.admin-banner-slide {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Dynamic text alignment classes */
+.admin-banner-slide.text-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.admin-banner-slide.text-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.admin-banner-slide.text-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.admin-banner-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.admin-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  width: 100%;
+  height: 100%;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Content alignment classes */
+.admin-banner-content.content-left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.admin-banner-content.content-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.admin-banner-content.content-center {
+  align-items: center;
+  text-align: center;
+}
+
+.admin-banner-text {
+  max-width: 900px;
+  color: #fff;
+  width: 100%;
+}
+
+/* Dynamic title styling */
+.admin-banner-title {
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+  display: block;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+/* Support for gradient backgrounds */
+.admin-banner-title[style*="background"] {
+  display: inline-block;
+}
+
+.admin-banner-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, 
+              transparent,
+              rgba(255, 255, 255, 0.9), 
+              transparent);
+  margin: 1.5rem 0;
+}
+
+/* FIXED: Alignment-specific divider positioning */
+.admin-banner-slide.text-left .admin-banner-divider {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.admin-banner-slide.text-right .admin-banner-divider {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.admin-banner-slide.text-center .admin-banner-divider {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* FIXED: Dynamic description styling with proper alignment */
+.admin-banner-description {
+  line-height: 1.5;
+  max-width: 600px;
+  word-wrap: break-word;
+}
+
+/* FIXED: Alignment-specific description positioning */
+.admin-banner-slide.text-left .admin-banner-description {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
+
+.admin-banner-slide.text-right .admin-banner-description {
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}
+
+.admin-banner-slide.text-center .admin-banner-description {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* FIXED: Title alignment */
+.admin-banner-slide.text-left .admin-banner-title {
+  text-align: left;
+}
+
+.admin-banner-slide.text-right .admin-banner-title {
+  text-align: right;
+}
+
+.admin-banner-slide.text-center .admin-banner-title {
+  text-align: center;
+}
+
+/* CAROUSEL CONTROLS STYLING */
+
+/* Navigation Buttons */
+.hero-carousel .carousel-control-prev,
+.hero-carousel .carousel-control-next {
+  width: 8%;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  z-index: 15;
+  border: none;
+}
+
+.hero-carousel .carousel-control-prev:hover,
+.hero-carousel .carousel-control-next:hover {
+  opacity: 1;
+}
+
+.hero-carousel .carousel-control-prev-icon,
+.hero-carousel .carousel-control-next-icon {
+  width: 50px;
+  height: 50px;
+  background-size: 50px 50px;
+  filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* Progress Dots (Indicators) */
+.hero-carousel .carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  margin: 0;
+  padding: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 12px;
+}
+
+.hero-carousel .carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  text-indent: -999px;
+  cursor: pointer;
+}
+
+.hero-carousel .carousel-indicators .active {
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
+  opacity: 1;
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.hero-carousel .carousel-indicators [data-bs-target]:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* Enhanced Modal Styling */
+.enhanced-modal {
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Alignment Controls */
+.alignment-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.alignment-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  border: 2px solid #ddd;
+  background: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.alignment-btn:hover {
+  border-color: #007bff;
+  background: #e3f2fd;
+}
+
+.alignment-btn.active {
+  border-color: #007bff;
+  background: #007bff;
+  color: white;
+}
+
+/* Word Color Controls */
+.word-color-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.word-color-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.word-text {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-picker {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.color-options {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  transition: transform 0.2s ease;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+  border-color: #007bff;
+}
+
+/* Gradient Controls */
+.gradient-controls {
+  margin-top: 10px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.gradient-colors {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.gradient-direction {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Preview Section */
+.preview-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: #000;
+  border-radius: 8px;
+  color: white;
+}
+
+.banner-preview {
+  padding: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+}
+
+.preview-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.preview-description {
+  font-size: 1.1rem;
+  font-weight: 300;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+/* Alignment Badge */
+.alignment-badge {
+  background: #6c757d;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-right: 8px;
+}
+
+/* Enhanced Form Groups */
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .ab-banner-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item {
+    height: 45vh;
+    min-height: 350px;
+  }
+  
+  .admin-banner-slide {
+    height: 45vh;
+  }
+  
+  .carousel-loading {
+    height: 45vh;
+    min-height: 350px;
+  }
+  
+  .ab-main-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .ab-banner-content,
+  .admin-banner-content {
+    padding: 0 1.5rem;
+  }
+  
+  .ab-divider,
+  .admin-banner-divider {
+    margin: 1rem 0;
+    width: 60px;
+  }
+  
+  .ab-subtitle {
+    font-size: 1rem;
+  }
+  
+  .admin-banner-title {
+    font-size: 2rem !important;
+    margin-bottom: 0.8rem;
+  }
+  
+  .admin-banner-description {
+    font-size: 1rem !important;
+    max-width: 90%;
+  }
+  
+  /* FIXED: Maintain alignment on mobile */
+  .admin-banner-slide.text-left .admin-banner-divider {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .admin-banner-slide.text-right .admin-banner-divider {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .admin-banner-slide.text-center .admin-banner-divider {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .admin-banner-slide.text-left .admin-banner-description {
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  .admin-banner-slide.text-right .admin-banner-description {
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
+  }
+
+  .admin-banner-slide.text-center .admin-banner-description {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  
+  .hero-carousel .carousel-control-prev,
+  .hero-carousel .carousel-control-next {
+    width: 12%;
+  }
+  
+  .hero-carousel .carousel-control-prev-icon,
+  .hero-carousel .carousel-control-next-icon {
+    width: 35px;
+    height: 35px;
+    background-size: 35px 35px;
+  }
+  
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .hero-carousel .carousel-indicators {
+    gap: 10px;
+    bottom: 12px;
+  }
+  
+  .enhanced-modal {
+    max-width: 95%;
+    margin: 20px;
+  }
+  
+  .alignment-controls {
+    flex-direction: column;
+  }
+  
+  .alignment-btn {
+    justify-content: center;
+  }
+  
+  .word-color-item {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .color-picker-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .gradient-colors {
+    flex-direction: column;
+  }
+  
+  .preview-title {
+    font-size: 1.8rem;
+  }
+  
+  .preview-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .ab-banner-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item {
+    height: 40vh;
+    min-height: 300px;
+    padding: 1.5rem;
+  }
+  
+  .admin-banner-slide {
+    height: 40vh;
+    padding: 1.5rem;
+  }
+  
+  .carousel-loading {
+    height: 40vh;
+    min-height: 300px;
+    padding: 1.5rem;
+  }
+  
+  .ab-main-title {
+    font-size: 1.8rem;
+  }
+  
+  .ab-cta-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .admin-banner-title {
+    font-size: 1.6rem !important;
+  }
+  
+  .admin-banner-description {
+    font-size: 0.9rem !important;
+    max-width: 100%;
+  }
+  
+  /* FIXED: Maintain alignment on small mobile */
+  .admin-banner-slide.text-left .admin-banner-description {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  .admin-banner-slide.text-right .admin-banner-description {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
+  }
+
+  .admin-banner-slide.text-center .admin-banner-description {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .hero-carousel .carousel-indicators {
+    gap: 8px;
+    bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-banner-content {
+    padding: 0 1rem;
+  }
+}
+
+/* Enhanced gradient support */
+.admin-banner-title[style*="linear-gradient"],
+.admin-banner-title[style*="radial-gradient"] {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Fallback for browsers that don't support background-clip: text */
+@supports not (background-clip: text) {
+  .admin-banner-title[style*="linear-gradient"],
+  .admin-banner-title[style*="radial-gradient"] {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+/* Ensure carousel works properly */
+.hero-carousel .carousel-inner {
+  height: 100%;
+}
+
+.hero-carousel .carousel-item {
+  height: 100%;
+}
+
+/* Enhanced Image Loading */
+.admin-banner-background {
+  background-attachment: scroll;
+}
+
+.admin-banner-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ADDITIONAL FIX: Override any conflicting text alignment */
+.admin-banner-slide .admin-banner-text * {
+  text-align: inherit !important;
+}
+
+/* Force proper alignment for all text elements */
+.admin-banner-slide.text-left * {
+  text-align: left !important;
+}
+
+.admin-banner-slide.text-right * {
+  text-align: right !important;
+}
+
+.admin-banner-slide.text-center * {
+  text-align: center !important;
+}
+
+/* Additional admin panel styles would go here... */

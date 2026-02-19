@@ -1,0 +1,277 @@
+/* =====================
+   PurposeSection.css - Scoped & Responsive
+   ===================== */
+
+/* Section Base */
+.mvv-section {
+  padding: 2rem 0;
+  background-color: #ecece8;
+  margin-top: 10px;
+}
+
+/* Header */
+.mvv-section .mvv-header h6 {
+  color: #6b8e23;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.mvv-section .mvv-header h2 {
+  font-weight: 700;
+  color: #1a3a1a;
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+}
+
+/* Highlight text */
+.mvv-section .highlight {
+  color: #4caf50;
+  position: relative;
+}
+
+.mvv-section .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(76, 175, 80, 0.3);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+/* Divider */
+.mvv-section .divider {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #4caf50, #0288d1, #f57c00);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* Card */
+.mvv-section .mvv-card {
+  position: relative;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.mvv-section .mvv-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Image */
+.mvv-section .mvv-image-wrapper {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.mvv-section .mvv-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mvv-section .mvv-card:hover .mvv-image {
+  transform: scale(1.05);
+}
+
+/* Icon over Image */
+.mvv-section .mvv-icon-outer {
+  position: absolute;
+  bottom: 140px;
+  left: 15%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 70px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.mvv-section .mvv-card:hover .mvv-icon-outer {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mvv-section .mvv-icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.mvv-section .mvv-icon {
+  font-size: 28px;
+}
+
+/* Content */
+.mvv-section .mvv-content {
+  padding: 50px 25px 25px;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+  height: calc(100% - 220px);
+  display: flex;
+  flex-direction: column;
+}
+
+.mvv-section .mvv-content h5 {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 30px;
+  margin-top: -30px;
+}
+
+.mvv-section .mvv-content p {
+  color: #333;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+/* Values */
+.mvv-section .mvv-values {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.mvv-section .mvv-value-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+}
+
+.mvv-section .mvv-value-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+/* Button */
+.mvv-section .mvv-button {
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  align-self: center;
+}
+
+.mvv-section .mvv-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mvv-section .button-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.mvv-section .mvv-button:hover .button-arrow {
+  transform: translateX(3px);
+}
+
+/* ---------------------------
+   RESPONSIVE ADJUSTMENTS
+   --------------------------- */
+
+/* Tablet landscape */
+@media (max-width: 992px) {
+  .mvv-section .mvv-image-wrapper {
+    height: 200px;
+  }
+  .mvv-section .mvv-content h5 {
+    font-size: 26px;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+  .mvv-section {
+    padding: 3rem 0;
+  }
+  .mvv-section .mvv-header h2 {
+    font-size: 2rem;
+  }
+  .mvv-section .mvv-content {
+    padding: 40px 20px 20px;
+    height: auto;
+  }
+  .mvv-section .mvv-image-wrapper {
+    height: 180px;
+  }
+  .mvv-section .mvv-icon-outer {
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .mvv-section {
+    padding: 2rem 0;
+  }
+  .mvv-section .mvv-header h2 {
+    font-size: 1.75rem;
+    text-align: center;
+  }
+  .mvv-section .mvv-image-wrapper {
+    height: 150px; /* shorter image for mobile */
+  }
+  .mvv-section .mvv-content h5 {
+    font-size: 20px;
+    margin-top: -20px;
+  }
+  .mvv-section .mvv-content p {
+    font-size: 0.9rem;
+  }
+  .mvv-section .mvv-values {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .mvv-section .mvv-value-item {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .mvv-section .mvv-button {
+    font-size: 0.9rem;
+    padding: 6px 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Move icon to top-left for mobile */
+  .mvv-section .mvv-icon-outer {
+    top: 10px;
+    left: 10px;
+    bottom: auto;
+    transform: none;
+    width: 55px;
+    height: 55px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+
+  .mvv-section .mvv-icon-circle {
+    width: 45px;
+    height: 45px;
+    font-size: 20px; /* smaller icon for mobile */
+  }
+}

@@ -1,0 +1,437 @@
+.consultancy-contact-section {
+  padding: 5rem 0;
+  background-image: url('https://img.freepik.com/premium-vector/abstract-texture-background-white-grey-technology-geometric-technology-modern_29865-929.jpg');
+  background-repeat: no-repeat;
+  background-repeat: center;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  height: 85vh;
+}
+
+.consultancy-contact-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(203, 207, 203, 0.1) 0%, transparent 70%);
+  opacity: 0.5;
+  z-index: -1;
+  animation: float 15s infinite linear;
+}
+
+.consultancy-contact-section .contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  margin-top: -50px;
+}
+
+.consultancy-contact-section .contact-section-title {
+  color: #000000;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-left: 400px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(65deg, #3fa542 0%, #145a1b 50%, #023e08 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.consultancy-contact-section .contact-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #28fa15, #0e6b0c);
+  border-radius: 3px;
+}
+
+.consultancy-contact-section .contact-section-subtitle {
+  color: #033b03;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.consultancy-contact-section .contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.consultancy-contact-section .contact-card {
+  background: white;
+  border-radius: 18px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.437);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  height: 380px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: -20px;
+}
+
+.consultancy-contact-section .contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  border-radius: 18px 18px 0 0;
+  transition: all 0.4s ease;
+}
+
+.consultancy-contact-section .phone-card {
+  background: linear-gradient(135deg, #f8fafd 0%, #ebf2fc 100%);
+}
+
+.consultancy-contact-section .phone-card::before {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+}
+
+.consultancy-contact-section .email-card {
+  background: linear-gradient(135deg, #fffdf5 0%, #fef9e6 100%);
+}
+
+.consultancy-contact-section .email-card::before {
+  background: linear-gradient(90deg, #eab308, #ca8a04);
+}
+
+.consultancy-contact-section .location-card {
+  background: linear-gradient(135deg, #fff8f6 0%, #fef0ee 100%);
+}
+
+.consultancy-contact-section .location-card::before {
+  background: linear-gradient(90deg, #ff6b35, #f7c59f);
+}
+
+.consultancy-contact-section .card-content {
+  padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.consultancy-contact-section .card-hover-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateY(110%);
+  transition: transform 0.5s ease;
+  z-index: -1;
+}
+
+.consultancy-contact-section .contact-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.consultancy-contact-section .contact-card:hover .card-hover-effect {
+  transform: translateY(0);
+}
+
+.consultancy-contact-section .contact-icon-container {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px 20px;
+}
+
+.consultancy-contact-section .phone-card .contact-icon-container {
+  background: linear-gradient(135deg, #b9d4ff, #034fab);
+}
+
+.consultancy-contact-section .email-card .contact-icon-container {
+  background: linear-gradient(135deg, #f6e2a6, #fdca00);
+}
+
+.consultancy-contact-section .location-card .contact-icon-container {
+  background: linear-gradient(135deg, #f8bca7, #ff6f00);
+}
+
+.consultancy-contact-section .contact-card:hover .contact-icon-container {
+  transform: scale(1.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.consultancy-contact-section .contact-icon {
+  font-size: 1.9rem;
+  color: white;
+}
+
+.consultancy-contact-section .contact-card h3 {
+  font-size: 1.4rem;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.consultancy-contact-section .contact-card p {
+  margin-bottom: 1.5rem;
+  color: #4a5568;
+  font-size: 1rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.consultancy-contact-section .contact-hours {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: rgb(0, 0, 0);
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  margin: 0.75rem 0 1.5rem;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.consultancy-contact-section .phone-card .contact-hours {
+  background: linear-gradient(90deg, #d6e5fe, #8ba9e9);
+}
+
+.consultancy-contact-section .email-card .contact-hours {
+  background: linear-gradient(90deg, #fff7dd, #e8dc83);
+}
+
+.consultancy-contact-section .location-card .contact-hours {
+  background: linear-gradient(90deg, #f3d9b0, #f9bf78);
+}
+
+.consultancy-contact-section .contact-card:hover .contact-hours {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.consultancy-contact-section .action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: auto;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.consultancy-contact-section .phone-card .action-link {
+  color: #4488f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.consultancy-contact-section .email-card .action-link {
+  color: #eab308;
+  background: rgba(234, 223, 8, 0.151);
+}
+
+.consultancy-contact-section .location-card .action-link {
+  color: #efa244;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.consultancy-contact-section .arrow-icon {
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.consultancy-contact-section .contact-card:hover .action-link {
+  background: white;
+  border-color: currentColor;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.consultancy-contact-section .phone-card:hover .action-link {
+  color: #2563eb;
+}
+
+.consultancy-contact-section .email-card:hover .action-link {
+  color: #ca8a04;
+}
+
+.consultancy-contact-section .location-card:hover .action-link {
+  color: #da9152;
+}
+
+.consultancy-contact-section .contact-card:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .consultancy-contact-section {
+    height: auto;
+    padding: 4rem 0;
+  }
+}
+
+@media (max-width: 992px) {
+  .consultancy-contact-section .contact-section-title {
+    font-size: 2.2rem;
+  }
+
+  .consultancy-contact-section .contact-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .consultancy-contact-section .contact-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+
+  .consultancy-contact-section .contact-card {
+    height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .consultancy-contact-section .contact-section-title {
+    font-size: 1.9rem;
+  }
+
+  .consultancy-contact-section .contact-icon-container {
+    width: 15px;
+    height: 30px;
+  }
+
+  .consultancy-contact-section .contact-card h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-5%, 5%);
+  }
+}
+
+/* Center the title fully and remove fixed margin */
+.consultancy-contact-section .contact-section-title {
+  display: flex;
+  justify-content: center;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 100%;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+/* Contact Grid: fluid columns to single on small screens */
+@media (max-width: 992px) {
+  .consultancy-contact-section .contact-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .consultancy-contact-section .contact-section-title {
+    font-size: 2.2rem;
+  }
+
+  .consultancy-contact-section {
+    padding: 4rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .consultancy-contact-section .card-content{
+    padding : 0rem 2.5rem
+  }
+  .consultancy-contact-section {
+    padding: 3rem 1rem;
+  }
+
+  .consultancy-contact-section .contact-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+    gap: 2.5rem;
+  }
+
+  .consultancy-contact-section .contact-card {
+    height: auto;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.8rem 1.5rem;
+  }
+
+  .consultancy-contact-section .contact-card p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .consultancy-contact-section {
+    padding: 2.5rem 1rem;
+  }
+
+  .consultancy-contact-section .contact-section-title {
+    font-size: 1.85rem;
+    margin-top: 25px;
+  }
+
+  .consultancy-contact-section .contact-icon-container {
+    width: 50px !important;
+    height: 50px !important;
+    padding: 16px !important;
+  }
+
+  .consultancy-contact-section .contact-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .consultancy-contact-section .contact-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Ensure buttons have good tappable size and stack nicely */
+  .consultancy-contact-section .action-link {
+    font-size: 1rem;
+    padding: 0.75rem 1.75rem;
+    margin-top: 1rem !important;
+  }
+}

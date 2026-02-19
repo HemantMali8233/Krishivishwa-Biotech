@@ -1,0 +1,488 @@
+/* General Styling */
+.main-contact-page {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Header Section */
+.contact-header-section {
+    position: relative;
+    background: url("../Assets/Images/Contact-bg10.jpg") no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.contact-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 1.2s ease;
+    background: linear-gradient(45deg, #facc15, #38ef7d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.contact-title.animate {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Contact Info */
+.main-contact-info {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 50px 90px;
+    background: #373e37;
+    transition: all 1s ease;
+}
+
+.info-card {
+    text-align: center;
+    padding: 30px 20px;
+    margin: 15px;
+    border: 1px solid rgba(250, 204, 21, 0.4);
+    border-radius: 15px;
+    width: 270px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(250, 204, 21, 0.15);
+    color: #fff;
+    transition: all 0.5s ease;
+    position: relative;
+}
+
+.info-card:hover {
+    border-color: #facc15;
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+    background: rgba(255, 254, 254, 0.12);
+
+    transform: scale(1.05);
+    p{
+        transform: translateY(5px);
+    }
+
+    h3{
+        transform: translateY(5px);
+    }
+}
+
+.contact-icon-wrapper svg {
+    width: 50px;
+    height: 50px;
+    fill: #facc15;
+    transition: fill 0.4s ease, transform 0.4s ease;
+}
+
+.info-card:hover .contact-icon-wrapper svg {
+    fill: #ffffff;
+    transform: scale(1.2);
+}
+
+.info-card h3 {
+    color: #facc15;
+    margin: 10px 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    transition: all 0.6s ease;
+}
+
+.info-card p {
+    color: #ddd;
+    font-size: 0.95rem;
+    margin: 0;
+    transition: all 0.6s ease;
+}
+
+/* Fade Animations */
+.fade-left {
+    opacity: 0;
+    transform: translateX(-80px);
+    transition: all 1s ease;
+}
+.fade-center {
+    width: 380px;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 1s ease;
+}
+.fade-right {
+    opacity: 0;
+    transform: translateX(80px);
+    transition: all 1s ease;
+}
+.fade-left.animate,
+.fade-center.animate,
+.fade-right.animate {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+
+/* Reach out to us with any questions or inquiries  */
+.Get-connect-dialogue {
+    position: relative;
+    height: 50vh;
+    background: url("../Assets/Images/Contact-bg8.jpg") no-repeat center center/cover fixed;
+    color: #ffffff;
+    font-size: 3.2rem;
+    font-weight: 600;
+    padding: 0 30px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.Get-connect-dialogue .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* 60% dark overlay */
+    z-index: 1;
+}
+
+.Get-connect-dialogue p {
+    position: relative;
+    z-index: 2; /* Bring text above overlay */
+}
+
+/* Form Section */
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 80px;
+    background-color: #373e37;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.form-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.form-heading {
+    font-size: 3rem;
+    color: #facc15;
+    font-weight: 600;
+}
+
+.form-title {
+    font-size: 2.6rem;
+    font-weight: 900;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.form-desc {
+    color: #ccc;
+    font-size: 1.2rem;
+    max-width: 500px;
+}
+
+.form-right {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-right input,
+.form-right textarea {
+    padding: 14px 18px;
+    border: none ;
+    background: transparent;
+    color: #fff;
+    border-radius: 25px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    border-bottom: 2px solid #facc15;
+}
+
+.form-right input::placeholder,
+.form-right textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-right input:hover,
+.form-right textarea:hover,
+.form-right input:focus,
+.form-right textarea:focus {
+    border: 1px solid #facc15;
+    box-shadow: 0 0 10px #facc15;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.form-right textarea {
+    resize: vertical;
+    min-height: 100px;
+    border-radius: 20px;
+}
+
+.form-right button {
+    padding: 14px 28px;
+    background: #facc15;
+    color: #111;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    align-self: flex-start;
+}
+
+.form-right button:hover {
+    background-color: #fff;
+    color: #111;
+    box-shadow: 0 0 15px #facc15;
+}
+
+.loader {
+    border: 3px solid #fff;
+    border-top: 3px solid #facc15;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tick {
+    color: #4CAF50;
+    font-weight: bold;
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+        padding: 30px 20px;
+    }
+
+    .form-right button {
+        align-self: center;
+    }
+}
+
+/* Fix Chrome/Edge/Safari Autofill background */
+.form-right input:-webkit-autofill,
+.form-right textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+    -webkit-text-fill-color: #fff !important;
+    background-color: transparent !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Prevent default yellow glow border on autofill */
+.form-right input:-webkit-autofill:focus,
+.form-right textarea:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+/* Firefox Autofill Fix */
+input:-moz-autofill,
+textarea:-moz-autofill {
+    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+    -moz-text-fill-color: #fff !important;
+}
+
+.form-right {
+    position: relative;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: 0 0 1px 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    color: #fff;
+    padding: 16px 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group label {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Move label up when input is focused or has content */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 8px;
+    font-size: 0.8rem;
+    color: #facc15;
+    background-color: #22222200;
+    padding: 0 4px;
+}
+
+.form-group textarea:focus,
+.form-group input:focus{
+    border-top :none;
+    border-right: none;
+    box-shadow:  none;
+}
+
+.error {
+    color: #f87171; /* red color for error text */
+    font-size: 0.9rem;
+    margin-top: 4px;
+    display: block;
+}
+.form-right button:disabled {
+    background: #888;
+    cursor: not-allowed;
+}
+
+
+/* Map Section */
+.map-section iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #333;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .form-section {
+        flex-direction: column;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 90%;
+    }
+}
+
+/* Base styles of info-cards should remain as is */
+
+/* Responsive adjustments for info cards */
+@media (max-width: 992px) {
+  .info-card {
+    width: 45%; /* Two cards per row on medium screens */
+    margin: 15px auto; /* Center horizontally */
+  }
+}
+
+@media (max-width: 768px) {
+  .info-card {
+    width: 100% !important; /* Full width on tablets and below */
+    max-width: 420px;
+    margin: 15px auto; /* Center cards */
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-card {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 12px 0;
+    padding: 25px 15px; /* Slightly adjust padding for small screens */
+  }
+
+  .info-card h3 {
+    font-size: 1.2rem; /* Slightly smaller headings */
+  }
+
+  .info-card p {
+    font-size: 0.9rem; /* Smaller paragraph text */
+  }
+
+  .contact-icon-wrapper svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.info-card {
+  word-wrap: break-word; /* Break long words */
+  overflow-wrap: break-word; /* Support for modern browsers */
+  hyphens: auto; /* Add hyphenation where supported */
+  white-space: normal; /* Allow text to wrap to new lines */
+  box-sizing: border-box;
+  padding: 30px 20px; /* Ensure enough padding inside */
+}
+
+/* Ensure max width and responsive scaling */
+@media (max-width: 768px) {
+  .info-card {
+    max-width: 420px;
+    width: 100% !important;
+    margin: 15px auto;
+    padding: 25px 20px;
+  }
+}
+
+/* Optional: prevent overflow on very long words or URLs */
+.info-card p,
+.info-card h3 {
+  overflow-wrap: anywhere;
+}

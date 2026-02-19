@@ -1,0 +1,239 @@
+/* FounderSection.css - Minimal Enhanced Version */
+
+:root {
+  /* Color Palette */
+  --primary-green: #165519;
+  --secondary-yellow: #FFD600;
+  --accent-orange: #FF6D00;
+  --dark-color: #212121;
+  --light-bg: #F5F5F5;
+  --text-dark: #212121;
+  --text-light: #424242;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+  --border-radius: 12px;
+}
+
+/* Minimal Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes subtleSlideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base Styles */
+.founder-section {
+  padding: 2rem 1.5rem;
+  width: 100%;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  font-family: 'Inter', sans-serif;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.founder-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.founder-content-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+/* Text Content */
+.founder-text {
+  flex: 1;
+}
+
+.badge-group {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  animation: subtleSlideUp 0.4s ease forwards;
+}
+
+.badge-science {
+  background-color: rgba(22, 85, 25, 0.08);
+  color: var(--primary-green);
+  border: 1px solid rgba(22, 85, 25, 0.1);
+  animation-delay: 0.1s;
+}
+
+.badge-eco {
+  background-color: rgba(255, 214, 0, 0.08);
+  color: #b38f00;
+  border: 1px solid rgba(255, 214, 0, 0.1);
+  animation-delay: 0.2s;
+}
+
+.badge-icon {
+  margin-right: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.subheading {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--primary-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.founder-text h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0.8rem 0;
+  color: var(--dark-color);
+  line-height: 1.3;
+  animation: subtleSlideUp 0.5s ease 0.2s forwards;
+  opacity: 0;
+}
+
+.highlight {
+  color: var(--primary-green);
+}
+
+.quote-box {
+  background-color: #f9f9f9;
+  padding: 1.2rem;
+  border-radius: var(--border-radius);
+  margin: 1.2rem 0;
+  border-left: 2px solid var(--secondary-yellow);
+  animation: subtleSlideUp 0.5s ease 0.3s forwards;
+  opacity: 0;
+}
+
+.quote-icon {
+  color: var(--secondary-yellow);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.quote-text {
+  color: var(--text-dark);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.description {
+  color: var(--text-light);
+  line-height: 1.7;
+  margin: 1.2rem 0;
+  font-size: 0.95rem;
+  animation: fadeIn 0.6s ease 0.4s forwards;
+}
+
+/* Quick Connect Section */
+.quick-connect {
+  background: rgba(22, 85, 25, 0.03);
+  padding: 1.2rem;
+  border-radius: var(--border-radius);
+  margin-top: 1.5rem;
+  border: 1px solid rgba(22, 85, 25, 0.05);
+  animation: subtleSlideUp 0.5s ease 0.5s forwards;
+  opacity: 0;
+}
+
+.connect-title {
+  color: var(--primary-green);
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.contact-icon {
+  color: var(--primary-green);
+  font-size: 0.9rem;
+}
+
+/* Image Column */
+.founder-image-col {
+  width: 40%;
+  position: relative;
+  animation: subtleSlideUp 0.6s ease 0.3s forwards;
+  opacity: 0;
+}
+
+.founder-image {
+  width: 85%;
+  height: 600px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .founder-content-wrapper {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+  }
+  
+  .founder-text, .founder-image-col {
+    width: 100%;
+  }
+  
+  .founder-text h1 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .founder-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .badge-group {
+    flex-wrap: wrap;
+  }
+  
+  .quote-box {
+    padding: 1rem;
+  }
+  
+  .quick-connect {
+    padding: 1rem;
+  }
+}
