@@ -1,0 +1,212 @@
+/* BreakingNewsMarquee.css */
+:root {
+  --bn-primary: #2d5a27;
+  --bn-secondary: #f0f7f0;
+  --bn-accent: #5a8c69;
+  --bn-text: #1a2a1e;
+  --bn-border: rgba(74, 124, 89, 0.15);
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes underline {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.bn-container {
+  background: var(--bn-secondary);
+  border-top: 1px solid var(--bn-border);
+  border-bottom: 1px solid var(--bn-border);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  height: 48px;
+}
+
+.bn-label {
+  background: var(--bn-primary);
+  color: white;
+  padding: 0 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+.bn-label-underline {
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  width: calc(100% - 3rem);
+  height: 2px;
+  background: var(--bn-accent);
+  transform-origin: left;
+  animation: underline 1s ease-out forwards;
+}
+
+.bn-label-icon {
+  animation: pulse 2s infinite;
+  color: var(--bn-accent);
+}
+
+.bn-marquee-wrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.bn-marquee-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+  animation: slide 40s linear infinite;
+  will-change: transform;
+}
+
+.bn-marquee-track.paused {
+  animation-play-state: paused;
+}
+
+.bn-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: 3rem;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: var(--bn-text);
+  font-weight: 500;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.bn-item:hover {
+  transform: translateY(-2px);
+}
+
+.news-icon {
+  color: var(--bn-accent);
+  font-size: 0.9rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.bn-separator {
+  width: 16px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1.5rem;
+}
+
+.bn-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--bn-primary);
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.bn-gradient-overlay {
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bn-gradient-overlay.left {
+  left: 0;
+  background: linear-gradient(90deg, var(--bn-secondary), transparent);
+}
+
+.bn-gradient-overlay.right {
+  right: 0;
+  background: linear-gradient(90deg, transparent, var(--bn-secondary));
+}
+
+@media (max-width: 768px) {
+  .bn-container {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem 0;
+  }
+  
+  .bn-label {
+    width: 100%;
+    clip-path: none;
+    padding: 0.5rem 1rem;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .bn-label-underline {
+    display: none;
+  }
+  
+  .bn-item {
+    font-size: 0.85rem;
+    margin-right: 1.5rem;
+    padding: 0.5rem 0;
+  }
+  
+  .bn-marquee-track {
+    animation: slide 30s linear infinite;
+  }
+  
+  .bn-gradient-overlay {
+    width: 30px;
+  }
+}
+
+.bn-container.loading {
+  opacity: 0.7;
+}
+
+.bn-container.loading .bn-marquee-track {
+  animation: none;
+}

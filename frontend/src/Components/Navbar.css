@@ -1,0 +1,375 @@
+/* ======================================================
+   ✅ Navbar Base Styles
+====================================================== */
+.custom-navbar {
+  width: 100%;
+  z-index: 1000;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-scrolled {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* ==================== Logo ==================== */
+.Logo {
+  height: 70px;
+}
+
+@media (max-width: 576px) {
+  .Logo {
+    height: 50px;
+  }
+}
+
+/* ======================================================
+   ✅ Desktop Menu Styling
+====================================================== */
+.Menu {
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin-left: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.Menu .hover-icon {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 0.3s ease;
+  color: green;
+}
+
+.Menu .text-label {
+  transition: transform 0.3s ease, padding-left 0.3s ease;
+  padding-left: 0;
+  white-space: nowrap;
+}
+
+/* Hover Effects */
+.Menu:hover .hover-icon {
+  opacity: 1;
+  transform: translateX(0);
+  left: 8px;
+}
+
+.Menu:hover .text-label {
+  transform: translateX(10px);
+  padding-left: 12px;
+}
+
+.Menu:hover {
+  background-color: rgba(255, 255, 255, 0.482);
+  color: green;
+  border-bottom: 2px solid green;
+  padding-right: 20px;
+}
+
+/* Scrolled Hover Effects */
+.navbar-scrolled .Menu:hover {
+  background-color: rgba(255, 255, 255, 0.955);
+  color: #32cd32 !important;
+  border-bottom: 2px solid #32cd32;
+  padding-right: 20px;
+}
+
+.navbar-scrolled .Menu:hover .hover-icon {
+  color: #32cd32 !important;
+}
+
+/* Active State */
+.Menu.active {
+  color: #ffc107;
+  border-bottom: 2px solid #ffc107;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding-right: 20px;
+}
+
+.Menu.active .hover-icon {
+  opacity: 1;
+  transform: translateX(0);
+  left: 8px;
+  color: #ffc107;
+}
+
+.Menu.active .text-label {
+  padding-left: 12px;
+  transform: translateX(10px);
+}
+
+/* ======================================================
+   ✅ Dropdown Styles
+====================================================== */
+.navbar-dropdown .dropdown-toggle {
+  background-color: rgba(25, 135, 84, 0.2);
+  color: white;
+  border: 1px solid rgba(25, 135, 84, 0.5);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar-dropdown .dropdown-toggle:hover,
+.navbar-dropdown .dropdown-toggle:focus {
+  background-color: rgba(25, 135, 84, 0.35);
+  color: white;
+  border-color: rgba(25, 135, 84, 0.6);
+}
+
+.navbar-dropdown .dropdown-menu {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 0;
+  min-width: 170px;
+  margin-top: 10px;
+}
+
+.navbar-dropdown .dropdown-item {
+  color: white;
+  font-weight: 500;
+  padding: 10px 16px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.navbar-dropdown .dropdown-item:hover {
+  background-color: rgba(13, 110, 253, 0.2);
+  color: white;
+  transform: scale(1.05);
+}
+
+.navbar-dropdown .dropdown-item:hover svg {
+  color: #00ffff;
+  text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff;
+}
+
+/* ======================================================
+   ✅ Mobile Styles
+====================================================== */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: calc(100vw - 30px);
+    max-width: calc(100vw - 30px);
+    border-radius: 0px 0px 20px 20px;
+    box-sizing: border-box;
+  }
+
+  .navbar-scrolled .navbar-collapse {
+    background-color: transparent !important;
+    box-shadow: none;
+    border: none;
+  }
+
+  .Menu {
+    display: flex;
+    width: calc(100vw - 30px);
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: transparent;
+    margin: 0;
+  }
+
+  .Menu:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: green;
+  }
+
+  .Menu.active {
+    background-color: #f5b904bc;
+    color: black;
+    border-bottom: 4px solid white;
+    font-weight: bold;
+    border-radius: 0px 0px 20px 20px;
+  }
+
+  .Menu.active .hover-icon {
+  color: white !important; /* ✅ icon becomes white */
+}
+
+  .Menu .hover-icon {
+    position: relative;
+    opacity: 1;
+    transform: none;
+    margin-right: 10px;
+    left: auto;
+    color: green;
+  }
+
+  .Menu .text-label {
+    padding-left: 0;
+    transform: none;
+  }
+
+  .navbar-dropdown {
+    width: calc(100vw - 30px);
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .navbar-dropdown .dropdown-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-dropdown .dropdown-menu {
+    width: 100%;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .navbar-dropdown .dropdown-item.clicked {
+    background-color: rgba(13, 110, 253, 0.4);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  .navbar-dropdown .dropdown-item.clicked svg {
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff;
+  }
+
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  .navbar-scrolled .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  .navbar-scrolled .navbar-toggler {
+    border-color: white;
+
+
+  }
+
+  /* ✅ Highlight on dropdown item click */
+  .active-dropdown {
+    background-color: rgba(13, 110, 253, 0.2) !important;
+    transform: scale(1.05);
+    color: white;
+  }
+
+  .active-dropdown svg {
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff;
+  }
+
+
+}
+
+/* Navbar Right Section */
+.navbar-right-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Navbar Cart Styles */
+.navbar-cart-container {
+  position: relative;
+}
+
+.navbar-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.navbar-cart-btn:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.navbar-cart-btn .cart-icon {
+  font-size: 1.1rem;
+}
+
+.navbar-cart-btn .cart-text {
+  font-size: 0.9rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar-right-section {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .navbar-cart-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-cart-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .navbar-cart-btn .cart-text {
+    font-size: 0.85rem;
+  }
+}

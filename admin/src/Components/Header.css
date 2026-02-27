@@ -1,0 +1,177 @@
+/* ------------------ Header Container ------------------ */
+.modern-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+
+  /* ✅ Deep black glassy background */
+    background-color: rgba(0, 0, 0, 0.823);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* ------------------ Header Layout ------------------ */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: transparent;
+}
+
+/* ------------------ Logo Section ------------------ */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-logo {
+  width: 180px;
+  height: 64px;
+  object-fit: contain;
+  background-color: transparent;
+  border-radius: 12px;
+}
+
+/* ------------------ Title Section ------------------ */
+.panel-heading {
+  flex: 1;
+  text-align: center;
+}
+
+.panel-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f0fff4; /* bright off-white for contrast */
+  margin: 0;
+
+  /* ✅ Clean and professional font */
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+
+/* ------------------ Profile & Dropdown ------------------ */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-profile-container {
+  position: relative;
+}
+
+.user-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.user-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.user-avatar {
+  width: 2rem;
+  height: 2rem;
+  background: #059669;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-left: 30%;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #f0fff4;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.dropdown-arrow {
+  color: #ffffff;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* ------------------ Dropdown Menu ------------------ */
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  width: 14rem;
+  background: #e6ffe3;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 20px rgba(0, 100, 0, 0.2);
+  overflow: hidden;
+  z-index: 10;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-header {
+  padding: 0.75rem 1rem;
+  font-weight: bold;
+  color: #047857;
+  background-color: #d9fcd9;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #d1fae5;
+  margin: 0.25rem 0;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  color: #065f46;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dropdown-item:hover {
+  background-color: #c7f9cc;
+}
+
+.dropdown-item.logout {
+  color: #b91c1c;
+}
+
+.dropdown-item.logout:hover {
+  background-color: #fee2e2;
+}

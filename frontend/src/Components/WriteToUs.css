@@ -1,0 +1,561 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+.write-to-us-section {
+  padding: 5px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.write-to-us-section .right-to-use-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+  padding: 60px 40px;
+  background: #c3c1c1c2;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  gap: 40px;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  max-width: 1200px;
+}
+
+.write-to-us-section .right-to-use-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.write-to-us-section .contact-left {
+  flex: 1;
+  min-width: 280px;
+  opacity: 0;
+  transform: rotateY(-90deg);
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.write-to-us-section .right-to-use-container.visible .contact-left {
+  opacity: 1;
+  transform: rotateY(0);
+}
+
+.write-to-us-section .subheading {
+  color: #2e7d32;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.write-to-us-section h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: bold;
+  margin: 10px 0 20px;
+}
+
+.write-to-us-section .highlight {
+  color: #2e7d32;
+}
+
+.write-to-us-section .description {
+  color: #0f2015;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+}
+
+.write-to-us-section .contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  order: 2;
+}
+
+.write-to-us-section .contact-info p {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #333;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.write-to-us-section .contact-info p:hover {
+  color: #157de4;
+  transform: translateX(5px);
+}
+
+.write-to-us-section .contact-info p i svg {
+  color: grey;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.write-to-us-section .contact-info p:hover svg {
+  color: #157de4;
+  transform: scale(1.15);
+}
+
+.write-to-us-section .contact-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.write-to-us-section .contact-link:hover {
+  color: #2e7d32;
+  transform: scale(1.05);
+}
+
+.write-to-us-section .mobile-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.write-to-us-section .mobile-address .icon svg {
+  color: #555;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.write-to-us-section .mobile-address .address-text {
+  display: inline-block;
+  flex: 1;
+}
+
+.write-to-us-section .contact-right {
+  flex: 1;
+  min-width: 280px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: transform 0.8s ease, opacity 0.8s ease 0.2s;
+}
+
+.write-to-us-section .right-to-use-container.visible .contact-right {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.write-to-us-section .contact-form {
+  background: rgba(46, 125, 50, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease;
+}
+
+.write-to-us-section .input-group {
+  position: relative;
+  margin-bottom: 36px;
+}
+
+.write-to-us-section .input-group input,
+.write-to-us-section .input-group textarea {
+  width: 100%;
+  padding: clamp(14px, 3.5vw, 18px) clamp(10px, 4vw, 14px) 6px;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
+  border-radius: 20px;
+  background-color: #ffffff31;
+  outline: none;
+  color: #171515;
+  border: 2px solid transparent;
+  border-bottom: 2px solid grey;
+  background-clip: padding-box;
+  transition: all 0.4s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.write-to-us-section .input-group label {
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.4);
+  padding: 0 6px;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 2;
+}
+
+.write-to-us-section .input-group input:focus + label,
+.write-to-us-section .input-group input:not(:placeholder-shown) + label,
+.write-to-us-section .input-group textarea:focus + label,
+.write-to-us-section .input-group textarea:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: 0.8rem;
+  color: black;
+  padding: 0 8px;
+}
+
+.write-to-us-section .input-group input:hover,
+.write-to-us-section .input-group textarea:hover {
+  border: 2px solid #2e7d32;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  transform: scale(1.02);
+  border-top: none;
+  border-right: none;
+}
+
+.write-to-us-section .input-group input:focus,
+.write-to-us-section .input-group textarea:focus {
+  border: 2px solid #2e7d32;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transform: scale(1.02);
+  border-top: none;
+  border-right: none;
+  box-shadow: 0 0 15px rgba(46, 125, 50, 0.2);
+}
+
+.write-to-us-section .animated-button {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 55px;
+  padding: 10px 20px;
+  background-color: #74c978eb;
+  color: #1a1a1a;
+  font-size: 1.05rem;
+  border: 2px solid #2e7d32;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.write-to-us-section .animated-button:hover {
+  background-color: #66bb6a;
+}
+
+.write-to-us-section .animated-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.write-to-us-section .animated-button.sent {
+  background-color: #4CAF50 !important;
+  border-color: #4CAF50 !important;
+}
+
+.write-to-us-section .animated-button.sent:hover {
+  background-color: #45a049 !important;
+}
+
+.write-to-us-section .animated-button .btn-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+  justify-content: center;
+}
+
+.write-to-us-section .animated-button .btn-text,
+.write-to-us-section .animated-button .sent-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  background-color: transparent;
+  color: black;
+  z-index: 2;
+}
+
+.write-to-us-section .animated-button .sent-text {
+  color: white;
+  font-weight: 600;
+}
+
+.write-to-us-section .animated-button .btn-arrow-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background-color: #7aff8c;
+  border-radius: 2px;
+  z-index: 1;
+  transition: width 0.6s ease;
+}
+
+.write-to-us-section .animated-button.sending .btn-arrow-line {
+  width: 100%;
+  background-color: #ff3b3b;
+}
+
+.write-to-us-section .animated-button.sending .btn-text {
+  opacity: 0;
+}
+
+.write-to-us-section .animated-button .sent-label {
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  background-color: #74c978eb;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: black;
+  font-weight: 600;
+  z-index: 5;
+  font-size: 1rem;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.write-to-us-section .animated-button.sent .sent-label {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.write-to-us-section .animated-button.sent:hover .sent-label {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.write-to-us-section .animated-button .send-label {
+  transition: opacity 0.3s ease;
+}
+
+.write-to-us-section .animated-button.sent .send-label {
+  opacity: 0;
+}
+
+/* Enhanced form validation styles */
+.write-to-us-section .error-msg {
+  color: #ff3b3b;
+  font-size: 0.75rem;
+  margin-top: 6px;
+  font-weight: 500;
+  display: block;
+  animation: slideInError 0.3s ease-out;
+}
+
+@keyframes slideInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.write-to-us-section .server-error {
+  color: #ff3b3b;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 59, 59, 0.1);
+  border: 1px solid rgba(255, 59, 59, 0.3);
+  border-radius: 8px;
+  animation: slideInError 0.3s ease-out;
+}
+
+/* Character and word count styles */
+.write-to-us-section .char-count, 
+.write-to-us-section .word-count {
+  font-size: 0.7rem;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.write-to-us-section .char-count {
+  color: #666;
+}
+
+.write-to-us-section .word-count {
+  color: #666;
+}
+
+.write-to-us-section .word-count.valid {
+  color: #2e7d32;
+}
+
+.write-to-us-section .word-count.invalid {
+  color: #ff3b3b;
+}
+
+/* Loading spinner */
+.write-to-us-section .spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #2e7d32;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success icon styling */
+.write-to-us-section .success-icon {
+  color: white;
+  margin-right: 8px;
+  animation: successBounce 0.6s ease-out;
+}
+
+@keyframes successBounce {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Input validation states */
+.write-to-us-section .input-group input.invalid,
+.write-to-us-section .input-group textarea.invalid {
+  border-bottom: 2px solid #ff3b3b;
+  background-color: rgba(255, 59, 59, 0.05);
+}
+
+.write-to-us-section .input-group input.invalid:hover,
+.write-to-us-section .input-group textarea.invalid:hover {
+  border: 2px solid #ff3b3b;
+  border-top: none;
+  border-right: none;
+}
+
+/* Autofill */
+.write-to-us-section input:-webkit-autofill,
+.write-to-us-section textarea:-webkit-autofill {
+  background-color: transparent !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: black !important;
+  caret-color: black;
+  transition: background-color 9999s ease-out, color 9999s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .write-to-us-section .right-to-use-container {
+    flex-direction: column;
+    padding: 40px 5%;
+  }
+
+  .write-to-us-section .contact-left,
+  .write-to-us-section .contact-right {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .write-to-us-section .subheading,
+  .write-to-us-section h1,
+  .write-to-us-section .description,
+  .write-to-us-section .contact-info {
+    text-align: center;
+  }
+
+  .write-to-us-section .animated-button {
+    width: 100%;
+  }
+
+  .write-to-us-section .contact-info {
+    align-items: center;
+    text-align: center;
+  }
+
+  .write-to-us-section .contact-info p {
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .write-to-us-section .contact-info p:last-child {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .write-to-us-section .contact-info p i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+  }
+
+  .write-to-us-section .contact-info p svg {
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  /* Mobile responsive validation styles */
+  .write-to-us-section .error-msg {
+    font-size: 0.7rem;
+  }
+
+  .write-to-us-section .char-count, 
+  .write-to-us-section .word-count {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .write-to-us-section .right-to-use-container {
+    padding: 30px 3%;
+    gap: 20px;
+  }
+
+  .write-to-us-section .contact-form {
+    padding: 15px;
+  }
+
+  .write-to-us-section .input-group {
+    margin-bottom: 28px;
+  }
+
+  .write-to-us-section .animated-button.sent::after {
+    font-size: 0.9rem;
+  }
+
+  .write-to-us-section .server-error {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+
+  .write-to-us-section .error-msg {
+    font-size: 0.65rem;
+    margin-top: 4px;
+  }
+
+  .write-to-us-section .char-count, 
+  .write-to-us-section .word-count {
+    font-size: 0.6rem;
+  }
+}

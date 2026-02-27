@@ -1,0 +1,326 @@
+/* ================================
+   Green Theme Consultancy Booking
+   ================================ */
+:root {
+  --primary-green: #2b642e;
+  --secondary-green: #66bb6a;
+  --light-green: #a5d6a7;
+  --accent-green: #1b5e20;
+  --background-green: #e8f5e9;
+  --white: #fff;
+  --error-red: #e53935;
+  --shadow: rgba(0, 0, 0, 0.15);
+}
+
+/* Background & Section Styling */
+.consultation-section {
+  position: relative;
+  padding: 50px 20px;
+  background: url('../Assets/Images/ConsultancyImg.jpg') no-repeat center center/cover; /* Change to your image path */
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-end; /* Align to right */
+  align-items: center;
+  opacity: 0.9;
+}
+
+/* Semi-transparent overlay */
+.background-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.236);
+  z-index: 1;
+}
+
+.main-container {
+  position: relative;
+  z-index: 2;
+  width: 65%;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  box-shadow: 0 8px 20px var(--shadow);
+  padding: 30px;
+  animation: fadeIn 1s ease;
+}
+
+/* Title & Subtitle */
+.header-content {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: var(--accent-green);
+}
+
+/* Form Styling */
+.form-wrapper {
+  margin-top: 20px;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+.form-subtitle {
+  color: var(--accent-green);
+  font-size: 0.95rem;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-row {
+  display: flex;
+  gap: 20px;
+}
+
+.input-row .field-group {
+  flex: 1;
+}
+
+/* Field Groups */
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent-green);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-container {
+  position: relative;
+}
+
+.text-input,
+.text-area {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--light-green);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.text-input:focus,
+.text-area:focus {
+  outline: none;
+  border-color: var(--secondary-green);
+  box-shadow: 0 0 8px rgba(46, 125, 50, 0.3);
+}
+
+/* Errors */
+.error-message {
+  font-size: 0.8rem;
+  color: var(--error-red);
+  margin-top: 4px;
+}
+
+/* Radio Buttons */
+.radio-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.radio-item {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--light-green);
+  background: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.radio-item:hover {
+  border-color: var(--secondary-green);
+  transform: translateY(-2px);
+}
+
+.radio-item.active {
+  border-color: var(--primary-green);
+  background: var(--light-green);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Submit Button */
+.button-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.submit-btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+}
+
+.submit-btn.submitting {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Success Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 125, 50, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 25px;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.modal-icon {
+  font-size: 2rem;
+  color: var(--primary-green);
+  margin-bottom: 10px;
+}
+
+.modal-close-btn {
+  margin-top: 15px;
+  padding: 8px 18px;
+  border: none;
+  background: var(--primary-green);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-close-btn:hover {
+  background: var(--accent-green);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.required-asterisk {
+  color: #e53935; /* red */
+}
+ /* Responsive Changes for Mobile Devices */
+@media only screen and (max-width: 768px) {
+  .consultation-section {
+    padding: 30px 15px;
+    justify-content: center !important; /* Center the form horizontally */
+    align-items: flex-start; /* Align to top vertically */
+  }
+  .main-container {
+    width: auto !important;
+    max-width: 95%; /* Nearly full width with small margin */
+    margin: 0 10px;
+    border-radius: 12px;
+    padding: 20px 15px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
+  .input-row {
+    flex-direction: column !important; /* Stack inputs vertically */
+    gap: 15px;
+  }
+  .form-wrapper {
+    margin-top: 15px;
+  }
+  .background-overlay {
+    display: none; /* Hide background overlay on mobile */
+  }
+}
+
+/* Remove blue background on autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Success Modal X Close Button */
+.modal-content {
+  position: relative;
+}
+
+.modal-close-x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.modal-close-x:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #b91c1c;
+  transform: scale(1.1);
+}
+
+.modal-close-x:active {
+  transform: scale(0.95);
+}

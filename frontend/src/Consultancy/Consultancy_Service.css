@@ -1,0 +1,832 @@
+/* Base styles and layout */
+.consultancy-service-container {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Services Section */
+.consultancy-services-section {
+  background: linear-gradient(135deg, #1a281e, #e0f7e9);
+  background-image: url('https://www.transparenttextures.com/patterns/diamond-upholstery.png');
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  background-blend-mode: overlay;
+  padding: 5rem 0 4rem 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  min-height: 650px;
+}
+
+/* Background Overlay */
+.consultancy-services-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(168, 162, 162, 0.33);
+  z-index: 0;
+}
+
+/* Container */
+.consultancy-services-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  justify-content: space-between;
+  padding: 0 2rem;
+  flex-wrap: nowrap;
+}
+
+/* Intro Section */
+.consultancy-services-intro {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px;
+  margin-top: 250px;
+  margin-left: -50px;
+}
+
+/* Title */
+.consultancy-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #166534, #4ade80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-top: -90px;
+  margin-left: -40px;
+  text-align: left;
+}
+
+/* Subtitle */
+.consultancy-section-subtitle {
+  font-size: 1.2rem;
+  color: #3b3f39;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  margin-left: -40px;
+}
+
+/* Instructions Button */
+.consultancy-instruction-btn {
+  background: linear-gradient(45deg, #166534, #037430, #0e4f27);
+  background-size: 200% 200%;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  max-width: fit-content;
+  font-size: 1rem;
+  margin-left: -40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.consultancy-instruction-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  transform: rotate(30deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -60%;
+  }
+
+  100% {
+    left: 120%;
+  }
+}
+
+.consultancy-instruction-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+  animation: gradientPulse 3s ease infinite;
+}
+
+@keyframes gradientPulse {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.consultancy-instruction-btn:hover .consultancy-btn-icon {
+  transform: translateX(3px);
+  transition: transform 0.3s ease;
+}
+
+/* Carousel Wrapper */
+.consultancy-cards-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  position: relative;
+  padding: 5rem 0 3rem 0;
+  perspective: 1500px;
+  flex: 1.5;
+  flex-wrap: nowrap;
+  overflow: visible;
+}
+
+/* Cards */
+.consultancy-card {
+  position: absolute;
+  width: 320px;
+  padding: 1.5rem;
+  height: 570px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease, opacity 0.4s ease, z-index 0.4s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  overflow: hidden;
+  margin-top: 85px;
+}
+
+/* Active Card */
+.consultancy-card.consultancy-active {
+  transform: scale(1);
+  opacity: 1;
+  z-index: 3;
+  background: linear-gradient(135deg, #ffffff, #f4fdf6);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(22, 101, 52, 0.2);
+  animation: consultancyShiner 2.5s infinite linear;
+}
+
+.consultancy-card.consultancy-active:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+}
+
+@keyframes consultancyShiner {
+  0% {
+    box-shadow: 0 0 20px rgba(22, 101, 52, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(22, 101, 52, 0.3);
+  }
+
+  100% {
+    box-shadow: 0 0 20px rgba(22, 101, 52, 0.2);
+  }
+}
+
+/* Theme colors */
+.consultancy-theme-yellow {
+  background: linear-gradient(135deg, #fffbea, #e1dabe);
+  border-top: 4px solid #fcd34d;
+}
+
+.consultancy-theme-blue {
+  background: linear-gradient(135deg, #e0f2fe, #bfdcd6);
+  border-top: 4px solid #60a5fa;
+}
+
+.consultancy-theme-orange {
+  background: linear-gradient(135deg, #fff7ed, #fbcd98);
+  border-top: 4px solid #fb923c;
+}
+
+/* Previous Card */
+.consultancy-card.consultancy-prev {
+  transform: translateX(-200px) scale(0.9) rotateY(10deg);
+  opacity: 0.75;
+  z-index: 2;
+}
+
+/* Next Card */
+.consultancy-card.consultancy-next {
+  transform: translateX(200px) scale(0.9) rotateY(-10deg);
+  opacity: 0.75;
+  z-index: 2;
+}
+
+/* Icons */
+.consultancy-card-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.card-icon-svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #16c65a;
+  transition: transform 0.3s ease;
+}
+
+.consultancy-card:hover .card-icon-svg {
+  transform: scale(1.1);
+}
+
+.consultancy-card.consultancy-active .card-icon-svg {
+  animation: consultancyIconZoomPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes consultancyIconZoomPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+/* Card Title */
+.consultancy-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  color: #166534;
+  margin-bottom: 0.5rem;
+}
+
+/* Description */
+.consultancy-card-desc {
+  font-size: 0.95rem;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+/* Card Image */
+.consultancy-card-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+/* Features List */
+.consultancy-card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+.consultancy-card-features li {
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+  color: #166534;
+  border-bottom: 1px dashed #b4e3c0;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.consultancy-card-features li:hover {
+  transform: translateX(5px);
+  font-weight: 600;
+  color: #14532d;
+}
+
+/* Price */
+.consultancy-card-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #055221;
+  background-color: rgba(22, 163, 74, 0.08);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  margin-top: auto;
+}
+
+/* Modal Section */
+.consultancy-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: consultancyFadeInOverlay 0.3s ease forwards;
+}
+
+.consultancy-popup-modal {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #e2e8f0;
+  border-radius: 14px;
+  padding: 2rem;
+  max-width: 540px;
+  width: 90%;
+  text-align: left;
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.6);
+  animation: consultancyFadeInZoom 0.4s ease;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.consultancy-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.75rem;
+}
+
+.consultancy-popup-header h3 {
+  font-size: 1.5rem;
+  color: #facc15;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.consultancy-info-icon {
+  color: #22c55e;
+  font-size: 1.2rem;
+}
+
+.consultancy-close-icon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  transition: transform 0.25s ease, color 0.3s ease;
+}
+
+.consultancy-close-icon:hover {
+  transform: scale(1.2) rotate(90deg);
+  color: #f87171;
+}
+
+.consultancy-popup-points {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.consultancy-popup-points li {
+  font-size: 1rem;
+  margin: 0.75rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.consultancy-popup-points li:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.consultancy-list-icon {
+  color: #22c55e;
+  margin-top: 0.2rem;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.consultancy-popup-separator {
+  margin: 0.75rem 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes consultancyFadeInZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes consultancyFadeInOverlay {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  to {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Responsive Styles and One Card at a Time for Mobile */
+@media (max-width: 768px) {
+  .consultancy-services-section {
+    padding: 3rem 0 4rem 0;
+    min-height: auto;
+  }
+
+  .consultancy-services-intro {
+    margin-top: 80px;
+    text-align: center;
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .consultancy-cards-wrapper {
+    position: relative;
+    width: 100%;
+    height: 460px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .consultancy-card {
+    position: relative !important;
+    width: 90vw;
+    max-width: 370px;
+    height: 420px;
+    opacity: 1 !important;
+    pointer-events: auto;
+    box-shadow: 0 20px 50px rgba(22, 101, 52, 0.35);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff, #f4fdf6);
+    margin: 0;
+    z-index: 10 !important;
+    transition: transform 0.3s ease;
+  }
+
+  .consultancy-card.consultancy-prev,
+  .consultancy-card.consultancy-next {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Navigation Buttons Placement */
+  .consultancy-carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 20;
+    pointer-events: auto;
+    transform: translateY(-50%);
+  }
+
+  .consultancy-carousel-controls button {
+    width: 48px;
+    height: 48px;
+    font-size: 1.6rem;
+    border-radius: 50%;
+    background-color: #166534;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(22, 101, 52, 0.2);
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .consultancy-carousel-controls button:hover {
+    background-color: #22c55e;
+    transform: scale(1.1);
+  }
+
+  .consultancy-carousel-controls button:first-child {
+    margin-left: -20px;
+  }
+
+  .consultancy-carousel-controls button:last-child {
+    margin-right: -20px;
+  }
+
+  /* Image & Text Adjustments */
+  .consultancy-card-img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .consultancy-section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .consultancy-section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+}
+
+/* Optional: very small device */
+@media (max-width: 400px) {
+  .consultancy-card {
+    max-width: 98vw;
+    height: 370px;
+  }
+
+  .consultancy-cards-wrapper {
+    height: 370px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Container stacks vertically */
+  .consultancy-services-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 2rem;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* Intro section full width, centered top */
+  .consultancy-services-intro {
+    max-width: 100%;
+    text-align: center;
+    margin: 0;
+    margin-top: 2rem;
+  }
+
+  /* Title size and spacing */
+  .consultancy-section-title {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0;
+  }
+
+  /* Subtitle spacing */
+  .consultancy-section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 0;
+  }
+
+  /* Instruction button centered under title */
+  .consultancy-instruction-btn {
+    margin: 0 auto 2rem auto;
+    display: inline-flex;
+    font-size: 1rem;
+  }
+
+  /* Cards wrapper full width below intro */
+  .consultancy-cards-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* max card width */
+    height: auto;
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* Cards absolutely positioned, but centered horizontally */
+  .consultancy-card {
+    position: relative !important;
+    width: 100%;
+    max-width: 400px;
+    height: auto; /* allow height to grow with content */
+    opacity: 1 !important;
+    pointer-events: auto;
+    box-shadow: 0 20px 50px rgba(22,101,52,0.35);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff, #f4fdf6);
+    margin: 0 auto 2rem auto;
+    transition: none;
+    z-index: 10 !important;
+    transform: none !important;
+  }
+
+  /* Hide side cards */
+  .consultancy-card.consultancy-prev,
+  .consultancy-card.consultancy-next {
+    display: none !important;
+  }
+
+  /* Navigation buttons positioned outside card, vertically centered */
+  .consultancy-carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+    z-index: 20;
+    pointer-events: auto;
+    transform: translateY(-50%);
+  }
+
+  /* Buttons styling */
+  .consultancy-carousel-controls button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+    border-radius: 50%;
+    background-color: #166534;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(22, 101, 52, 0.2);
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .consultancy-carousel-controls button:hover {
+    background-color: #22c55e;
+    transform: scale(1.1);
+  }
+
+  /* Button positioned slightly outside edges */
+  .consultancy-carousel-controls button:first-child {
+    margin-left: -10px;
+  }
+  .consultancy-carousel-controls button:last-child {
+    margin-right: -10px;
+  }
+
+  /* Card image size */
+  .consultancy-card-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  /* Adjust font sizes for readability */
+  .consultancy-card-title {
+    font-size: 1.6rem;
+  }
+  .consultancy-card-desc {
+    font-size: 1rem;
+  }
+  .consultancy-card-features {
+    font-size: 0.95rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .consultancy-carousel-controls button {
+    width: 44px;
+    height: 44px;
+    font-size: 2rem;
+    border-radius: 50%;
+    background: transparent !important; /* Remove green */
+    color: #166534; /* Dark green arrow color */
+    cursor: pointer;
+    box-shadow: none; /* Remove extra shadow */
+    transition: none; /* Remove hover scaling */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .consultancy-carousel-controls button:hover {
+    background-color: rgba(22, 101, 52, 0.1);
+    color: #14532d;
+    border-color: #14532d;
+    transform: none;
+  }
+
+  .consultancy-carousel-controls button:first-child {
+    margin-left: -10px;
+  }
+  .consultancy-carousel-controls button:last-child {
+    margin-right: -10px;
+  }
+
+  /* Make sure active card uses its theme colors as desktop */
+  .consultancy-card.consultancy-active.consultancy-theme-yellow {
+    background: linear-gradient(135deg, #fffbea, #e1dabe);
+    border-top: 4px solid #fcd34d;
+    box-shadow: 0 16px 45px rgba(0,0,0,0.25);
+  }
+  .consultancy-card.consultancy-active.consultancy-theme-blue {
+    background: linear-gradient(135deg, #e0f2fe, #bfdcd6);
+    border-top: 4px solid #60a5fa;
+    box-shadow: 0 16px 45px rgba(0,0,0,0.25);
+  }
+  .consultancy-card.consultancy-active.consultancy-theme-orange {
+    background: linear-gradient(135deg, #fff7ed, #fbcd98);
+    border-top: 4px solid #fb923c;
+    box-shadow: 0 16px 45px rgba(0,0,0,0.25);
+  }
+}
+
+
+@media (max-width: 768px) {
+  /* Center intro text container */
+  .consultancy-services-intro {
+    margin: 2rem auto 1.5rem auto;
+    max-width: 90%;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Centered and balanced title (heading) */
+  .consultancy-section-title {
+    font-size: 2.4rem !important;
+    margin: 0 0 1rem 0 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #166534, #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+  }
+
+  /* Subtitle centered below title with spacing */
+  .consultancy-section-subtitle {
+    font-size: 1.1rem !important;
+    margin: 0 0 1.5rem 0 !important;
+    text-align: center !important;
+    color: #3b3f39;
+    line-height: 1.6;
+  }
+
+  /* Keep instruction button centered */
+  .consultancy-instruction-btn {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: inline-flex;
+    font-size: 1rem;
+  }
+}
+
+/* Make sure active card has green top border permanently */
+.consultancy-card.consultancy-active {
+  border-top: 4px solid #16a34a; /* Vibrant green: #16a34a */
+}
+
+/* On hover, intensify border color and add subtle shadow or glow */
+.consultancy-card.consultancy-active:hover {
+  border-top-color: #22c55e; /* Lighter green on hover */
+  box-shadow: 0 0 10px 2px rgba(34, 197, 94, 0.8),
+              0 16px 45px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}

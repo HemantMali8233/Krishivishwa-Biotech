@@ -1,0 +1,1123 @@
+/* ========== My Details – E‑commerce style ========== */
+.mydetails-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #f0fdf4 0%, #ecfeff 50%, #f8fafc 100%);
+  padding: 1.5rem 1rem 3rem;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.mydetails-back {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #334155;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.mydetails-back:hover {
+  background: #f8fafc;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.mydetails-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.mydetails-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem 0;
+}
+
+.mydetails-subtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Dashboard cards */
+.mydetails-dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+}
+
+.mydetails-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.25rem 1rem;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.mydetails-card:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.12);
+  transform: translateY(-2px);
+}
+
+.mydetails-card--active {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.18);
+}
+
+.mydetails-card-icon {
+  font-size: 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.mydetails-card-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.mydetails-card--active .mydetails-card-label {
+  color: #166534;
+}
+
+/* Content panel */
+.mydetails-content {
+  max-width: 880px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.mydetails-panel-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Profile */
+.mydetails-profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mydetails-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+}
+
+.mydetails-profile-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mydetails-profile-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.mydetails-profile-value {
+  font-size: 1rem;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.mydetails-profile-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.mydetails-btn {
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.mydetails-btn--primary {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
+}
+
+.mydetails-btn--primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
+.mydetails-btn--secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.mydetails-btn--secondary:hover {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.mydetails-btn--outline {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+}
+
+.mydetails-btn--outline:hover {
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.mydetails-btn--danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.mydetails-btn--danger:hover {
+  background: #fecaca;
+}
+
+.mydetails-cancel-note {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* Form card */
+.mydetails-form-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 420px;
+}
+
+.mydetails-reset-card {
+  margin-top: 1.5rem;
+}
+
+.mydetails-form-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 1rem 0;
+}
+
+.mydetails-form-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.mydetails-form-success {
+  color: #16a34a;
+  font-size: 0.875rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.mydetails-form-group {
+  margin-bottom: 1rem;
+}
+
+.mydetails-form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.35rem;
+}
+
+.mydetails-form-group input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.mydetails-form-group input:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.mydetails-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* Messages */
+.mydetails-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.mydetails-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.mydetails-box-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 0 0 0.75rem 0;
+}
+
+.mydetails-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mydetails-list-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.mydetails-list-item:last-child {
+  border-bottom: none;
+}
+
+.mydetails-list-msg {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.mydetails-list-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.mydetails-empty {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Appointments */
+.mydetails-appointment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.mydetails-appointment-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.mydetails-appointment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mydetails-appointment-type {
+  font-weight: 600;
+  color: #166534;
+  font-size: 0.9rem;
+}
+
+.mydetails-appointment-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin: 0.35rem 0;
+}
+
+.mydetails-appointment-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.mydetails-appointment-notes {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.mydetails-appointment-pay-note {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 0 0.75rem 0;
+}
+
+.mydetails-appointment-pay-success {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Status badges */
+.mydetails-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.mydetails-status--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.mydetails-status--approved,
+.mydetails-status--delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.mydetails-status--cancelled,
+.mydetails-status--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.mydetails-status--assigned {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Orders list – row cards */
+.mydetails-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mydetails-order-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mydetails-order-row:hover {
+  border-color: #86efac;
+  background: #f0fdf4;
+  box-shadow: 0 2px 12px rgba(34, 197, 94, 0.08);
+}
+
+.mydetails-order-row-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+.mydetails-order-row-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mydetails-order-row-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.mydetails-order-row-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mydetails-order-row-id {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.mydetails-order-row-products {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.mydetails-order-row-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.mydetails-order-row-right {
+  flex-shrink: 0;
+}
+
+/* Order detail overlay */
+.mydetails-order-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.mydetails-order-detail {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.mydetails-order-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.mydetails-order-detail-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mydetails-order-detail-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.mydetails-order-detail-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Progress path in order detail */
+.mydetails-order-progress {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 1rem 1.5rem;
+  margin: 0 1rem 1rem;
+  background: #f0fdf4;
+  border-radius: 12px;
+  border: 1px solid #bbf7d0;
+}
+
+.mydetails-order-progress--ended .mydetails-progress-step.ended .mydetails-progress-dot {
+  background: #94a3b8;
+  border-color: #94a3b8;
+}
+
+.mydetails-progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  flex: 0 0 auto;
+}
+
+.mydetails-progress-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: 2px solid #cbd5e1;
+  flex-shrink: 0;
+}
+
+.mydetails-progress-step.done .mydetails-progress-dot {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+
+.mydetails-progress-step.ended .mydetails-progress-dot {
+  background: #64748b;
+  border-color: #64748b;
+}
+
+.mydetails-progress-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mydetails-progress-step.done .mydetails-progress-label {
+  color: #166534;
+}
+
+.mydetails-progress-date {
+  font-size: 0.65rem;
+  color: #94a3b8;
+}
+
+.mydetails-progress-connector {
+  flex: 1;
+  min-width: 20px;
+  height: 2px;
+  align-self: 10px;
+  margin: 0 0.35rem;
+  background: repeating-linear-gradient(
+    90deg,
+    #cbd5e1 0,
+    #cbd5e1 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  background-size: 6px 2px;
+}
+
+.mydetails-progress-step.done + .mydetails-progress-connector {
+  background: repeating-linear-gradient(
+    90deg,
+    #22c55e 0,
+    #22c55e 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  background-size: 6px 2px;
+}
+
+.mydetails-order-detail-body {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.mydetails-order-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.mydetails-order-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mydetails-order-detail-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.mydetails-order-detail-total {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #166534;
+}
+
+.mydetails-order-detail-block {
+  margin-bottom: 1.25rem;
+}
+
+.mydetails-order-detail-block h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mydetails-order-detail-block p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.mydetails-order-detail-refund {
+  padding: 0.6rem 0.85rem;
+  background: #dcfce7;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #166534;
+  margin-bottom: 1rem;
+}
+
+.mydetails-cancel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.mydetails-cancel-modal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+}
+
+.mydetails-cancel-modal h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mydetails-cancel-text {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0.2rem 0;
+}
+
+.mydetails-cancel-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mydetails-order-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mydetails-order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mydetails-order-item-name {
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.mydetails-order-item-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.mydetails-order-detail-actions {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Loading & login prompt */
+.mydetails-loading,
+.mydetails-login-prompt {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+/* Appointment-specific status badges */
+.mydetails-status--confirmed {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.mydetails-status--finished,
+.mydetails-status--meeting-finished {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Schedule rescheduled notice */
+.mydetails-appt-schedule-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #92400e;
+  line-height: 1.45;
+}
+
+.mydetails-appt-schedule-notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Pending payment notice */
+.mydetails-appt-pending-pay-note {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #9a3412;
+  line-height: 1.45;
+}
+
+/* ========== Appointment Detail – Section Cards ========== */
+.mydetails-appt-detail {
+  max-width: 560px;
+}
+
+.mydetails-appt-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.mydetails-appt-section:last-child {
+  margin-bottom: 0;
+}
+
+.mydetails-appt-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.mydetails-appt-section-header h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mydetails-appt-section-icon {
+  font-size: 1rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.mydetails-appt-section-icon--green {
+  color: #16a34a;
+}
+
+.mydetails-appt-section-icon--blue {
+  color: #2563eb;
+}
+
+.mydetails-appt-section-icon--teal {
+  color: #0d9488;
+}
+
+.mydetails-appt-section-icon--red {
+  color: #dc2626;
+}
+
+/* Overrides for grid inside section cards */
+.mydetails-appt-section .mydetails-order-detail-grid {
+  margin-bottom: 0;
+}
+
+/* Notes inside booking details */
+.mydetails-appt-notes {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.mydetails-appt-notes p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+/* Confirmation message */
+.mydetails-appt-confirmation-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #1e40af;
+  line-height: 1.45;
+}
+
+.mydetails-appt-confirmation-msg svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Payment badge */
+.mydetails-appt-pay-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mydetails-appt-pay-badge--paid {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.mydetails-appt-pay-badge--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.mydetails-appt-pay-badge--refunded {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Invoice download bar */
+.mydetails-appt-invoice-bar {
+  margin-top: 0.85rem;
+  padding: 0.75rem 1rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.mydetails-appt-invoice-bar span {
+  font-size: 0.85rem;
+  color: #166534;
+}
+
+/* Finished section */
+.mydetails-appt-section--finished {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.mydetails-appt-finished-msg {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: #166534;
+  font-weight: 500;
+}
+
+.mydetails-appt-finished-msg svg {
+  flex-shrink: 0;
+}
+
+/* Cancelled section */
+.mydetails-appt-section--cancelled {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.mydetails-appt-refund-info {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: #dcfce7;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #166534;
+  line-height: 1.5;
+}
+
+.mydetails-appt-refund-info--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .mydetails-dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .mydetails-page {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .mydetails-content {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .mydetails-dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .mydetails-profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mydetails-two-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .mydetails-order-row {
+    flex-wrap: wrap;
+  }
+
+  .mydetails-order-row-info {
+    min-width: 0;
+  }
+
+  .mydetails-order-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mydetails-appt-detail .mydetails-progress-connector {
+  height: 4px;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 6px 4px;
+}
+
+.mydetails-appt-detail .mydetails-progress-step.done + .mydetails-progress-connector {
+  background-image: radial-gradient(#22c55e 1px, transparent 1px);
+}
+
+@media (max-width: 768px) {
+  .mydetails-appt-detail .mydetails-order-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    margin: 0 0.5rem 0.75rem;
+  }
+
+  .mydetails-appt-detail .mydetails-progress-step {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .mydetails-appt-detail .mydetails-progress-dot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .mydetails-appt-detail .mydetails-progress-label {
+    font-size: 0.75rem;
+  }
+
+  .mydetails-appt-detail .mydetails-progress-date {
+    font-size: 0.7rem;
+    margin-left: 0.4rem;
+  }
+
+  .mydetails-appt-detail .mydetails-progress-connector {
+    width: 4px;
+    height: 20px;
+    flex: 0 0 auto;
+    align-self: auto;
+    margin: 0 0 0 6px;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-repeat: repeat-y;
+    background-position: left top;
+    background-size: 4px 6px;
+  }
+
+  .mydetails-appt-detail .mydetails-progress-step.done + .mydetails-progress-connector {
+    background-image: radial-gradient(#22c55e 1px, transparent 1px);
+  }
+}

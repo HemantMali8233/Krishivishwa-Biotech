@@ -1,0 +1,43 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  margin-bottom: 15px;
+  text-decoration: none;
+}
+
+.sidebar>h2{
+  color: rgb(255, 255, 255);
+}
+.main-content {
+  flex-grow: 1;
+  background: #f1faee;
+  padding: 20px;
+}
+
+.header {
+  background-color: rgb(0, 56, 0);
+  color: rgb(18, 52, 2);
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+
+.content {
+  padding: 10px 20px;
+}

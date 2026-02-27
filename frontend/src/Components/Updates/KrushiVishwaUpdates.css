@@ -1,0 +1,115 @@
+/* Main Container */
+.kruvi-news-super {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0ebe2 0%, #e8f5e8 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Enhanced Grid Layout - 4 cards per row */
+.kruvi-news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 32px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Responsive breakpoints for exact 4-card layout */
+@media (min-width: 1200px) {
+  .kruvi-news-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    padding: 40px 24px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .kruvi-news-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .kruvi-news-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .kruvi-news-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px 16px;
+  }
+}
+
+/* CTA Container
+.kruvi-news-cta-container {
+  background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%);
+  padding: 60px 20px;
+  margin-top: 40px;
+} */
+
+/* Enhanced animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Utility classes */
+.text-gradient {
+  background: linear-gradient(135deg, #2d5a27, #4a7c59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-enhanced {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}

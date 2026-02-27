@@ -1,0 +1,105 @@
+.settings {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  color: #2e7d32;
+  margin-bottom: 5px;
+}
+
+.tabs {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.tabs button {
+  padding: 10px 15px;
+  border: 1px solid #a5d6a7;
+  background-color: #f1f8f2;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tabs button.active {
+  background-color: #4caf50;
+  color: rgb(83, 82, 82);
+  font-weight: bold;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: black;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  padding-left: 2.5rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  color: #000;
+}
+
+.checkbox-row input {
+  margin-right: 10px;
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #388e3c;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.message.success {
+  background-color: #d0f0d0;
+  color: #2e7d32;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #c62828;
+}

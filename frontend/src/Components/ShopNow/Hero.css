@@ -1,0 +1,934 @@
+/* Hero.css - Desktop UNCHANGED, Mobile Spacing Fix ONLY */
+
+/* ========================================
+   DESKTOP STYLES (UNCHANGED - ORIGINAL)
+======================================== */
+
+.shop-hero-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://i.pinimg.com/736x/7e/d5/4d/7ed54dbdd4d5bdbcf1fa670b8faf521e.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  padding: 2rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.shop-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.768);
+  z-index: 1;
+}
+
+.shop-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  width: 100%;
+  height: 95%;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.shop-text-container {
+  max-width: 1000px;
+  text-align: left;
+}
+
+.shop-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 900px;
+}
+
+.farmer-bg {
+  height: 600px;
+  width: 600px;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+  margin-right: -50px;
+}
+
+.shop-main-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.5px;
+  color: #f5f5f5;
+}
+
+.shop-title-emphasis {
+  background: linear-gradient(90deg, #84cc16, #a3e635, #d9f99d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.shop-title-emphasis::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(163, 230, 53, 0.6),
+      transparent);
+  border-radius: 2px;
+}
+
+.shop-divider {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(163, 230, 53, 0.8),
+      transparent);
+  margin: 2rem 0;
+  transform-origin: left;
+}
+
+.shop-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 300;
+  color: #e0e0e0;
+  max-width: 700px;
+  margin: 0 0 2rem 0;
+}
+
+.shop-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: linear-gradient(90deg, #84cc16, #a3e635);
+  color: #1a2e05;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(132, 204, 22, 0.4);
+  transition: all 0.3s ease;
+}
+
+.shop-cta-button:hover {
+  background: linear-gradient(90deg, #7ab615, #94d32d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(132, 204, 22, 0.6);
+}
+
+.shop-cart-icon {
+  font-size: 1.2rem;
+}
+
+.shop-arrow-icon {
+  font-size: 1.1rem;
+  transition: transform 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+.shop-cta-button:hover .shop-arrow-icon {
+  transform: translateX(3px);
+}
+
+/* Static Banner Elements - Force Visibility */
+.static-banner-text,
+.static-image,
+.static-title,
+.static-subtitle,
+.static-button,
+.static-divider {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.shop-hero-wrapper .shop-text-container,
+.shop-hero-wrapper .shop-image-container,
+.shop-hero-wrapper .shop-main-title,
+.shop-hero-wrapper .shop-subtitle,
+.shop-hero-wrapper .shop-cta-button,
+.shop-hero-wrapper .shop-divider,
+.shop-hero-wrapper .farmer-bg {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.hero-carousel .shop-hero-wrapper * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Dynamic Carousel Wrapper */
+.dynamic-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+}
+
+.hero-carousel {
+  height: 70vh;
+  width: 100%;
+}
+
+.hero-carousel .carousel-item {
+  height: 70vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Loading State */
+.carousel-loading {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #84cc16, #a3e635);
+  color: white;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Admin Banner Slide - Dynamic Styling for Shop */
+.admin-banner-slide {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Dynamic text alignment classes */
+.admin-banner-slide.text-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.admin-banner-slide.text-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.admin-banner-slide.text-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.admin-banner-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  background-attachment: scroll;
+}
+
+.admin-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  width: 100%;
+  height: 100%;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Content alignment classes */
+.admin-banner-content.content-left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.admin-banner-content.content-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.admin-banner-content.content-center {
+  align-items: center;
+  text-align: center;
+}
+
+.admin-banner-text {
+  max-width: 900px;
+  color: #fff;
+  width: 100%;
+}
+
+/* Dynamic title styling */
+.admin-banner-title {
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+  display: block;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+/* Support for gradient backgrounds */
+.admin-banner-title[style*="background"] {
+  display: inline-block;
+}
+
+.admin-banner-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, 
+              transparent,
+              rgba(255, 255, 255, 0.9), 
+              transparent);
+  margin: 1.5rem 0;
+}
+
+/* Alignment-specific divider positioning */
+.admin-banner-slide.text-left .admin-banner-divider {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.admin-banner-slide.text-right .admin-banner-divider {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.admin-banner-slide.text-center .admin-banner-divider {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Dynamic description styling */
+.admin-banner-description {
+  line-height: 1.5;
+  max-width: 600px;
+  word-wrap: break-word;
+}
+
+/* Alignment-specific description positioning */
+.admin-banner-slide.text-left .admin-banner-description {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
+
+.admin-banner-slide.text-right .admin-banner-description {
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}
+
+.admin-banner-slide.text-center .admin-banner-description {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* Title alignment */
+.admin-banner-slide.text-left .admin-banner-title {
+  text-align: left;
+}
+
+.admin-banner-slide.text-right .admin-banner-title {
+  text-align: right;
+}
+
+.admin-banner-slide.text-center .admin-banner-title {
+  text-align: center;
+}
+
+/* Navigation Buttons */
+.hero-carousel .carousel-control-prev,
+.hero-carousel .carousel-control-next {
+  width: 8%;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  z-index: 15;
+  border: none;
+}
+
+.hero-carousel .carousel-control-prev:hover,
+.hero-carousel .carousel-control-next:hover {
+  opacity: 1;
+}
+
+.hero-carousel .carousel-control-prev-icon,
+.hero-carousel .carousel-control-next-icon {
+  width: 50px;
+  height: 50px;
+  background-size: 50px 50px;
+  filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* Progress Dots (Indicators) */
+.hero-carousel .carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  margin: 0;
+  padding: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 12px;
+}
+
+.hero-carousel .carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  text-indent: -999px;
+  cursor: pointer;
+}
+
+.hero-carousel .carousel-indicators .active {
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
+  opacity: 1;
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.hero-carousel .carousel-indicators [data-bs-target]:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* Enhanced gradient support */
+.admin-banner-title[style*="linear-gradient"],
+.admin-banner-title[style*="radial-gradient"] {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Fallback for browsers that don't support background-clip: text */
+@supports not (background-clip: text) {
+  .admin-banner-title[style*="linear-gradient"],
+  .admin-banner-title[style*="radial-gradient"] {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+/* Force proper alignment for all text elements */
+.admin-banner-slide.text-left * {
+  text-align: left !important;
+}
+
+.admin-banner-slide.text-right * {
+  text-align: right !important;
+}
+
+.admin-banner-slide.text-center * {
+  text-align: center !important;
+}
+
+/* Ensure carousel works properly */
+.hero-carousel .carousel-inner {
+  height: 100%;
+}
+
+.hero-carousel .carousel-item {
+  height: 100%;
+}
+
+/* FIXED: Ensure no transitions interfere with content display */
+.hero-carousel .carousel-item * {
+  transition: none !important;
+}
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES WITH NAVBAR SPACING FIX
+======================================== */
+
+/* Large Tablet (992px and below) */
+@media (max-width: 992px) {
+  .shop-hero-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item,
+  .admin-banner-slide {
+    height: 60vh;
+    min-height: 500px;
+  }
+
+  .shop-hero-wrapper,
+  .admin-banner-slide {
+    padding: 130px 2rem 2rem 2rem; /* Increased from 100px to 130px */
+  }
+
+  .shop-hero-content {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 3rem;
+    height: auto;
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .shop-text-container {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .shop-image-container {
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .farmer-bg {
+    height: 400px;
+    width: 400px;
+    margin-right: 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .shop-divider {
+    margin: 2rem auto;
+    transform-origin: center;
+  }
+
+  .admin-banner-content {
+    padding: 0 1.5rem;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .admin-banner-divider {
+    margin: 1.5rem auto;
+  }
+
+  .carousel-loading {
+    min-height: 500px;
+    padding: 130px 2rem 2rem 2rem; /* Increased from 100px to 130px */
+  }
+}
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .shop-hero-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item,
+  .admin-banner-slide {
+    height: 55vh;
+    min-height: 450px;
+  }
+
+  .shop-hero-wrapper,
+  .admin-banner-slide {
+    padding: 120px 1.5rem 2rem 1.5rem; /* Increased from 80px to 120px */
+  }
+
+  .shop-hero-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+    height: auto;
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .shop-main-title {
+    font-size: 2.5rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .shop-subtitle {
+    font-size: 1.2rem !important;
+    max-width: 95%;
+    margin: 0 auto 1.5rem auto;
+  }
+
+  .shop-cta-button {
+    padding: 0.9rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  .shop-text-container {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .shop-image-container {
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .farmer-bg {
+    height: 320px;
+    width: 320px;
+    margin-right: 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .shop-divider {
+    margin: 1.5rem auto;
+  }
+
+  .admin-banner-content {
+    padding: 0 1rem;
+    max-width: 95%;
+    text-align: center;
+  }
+
+  .admin-banner-title {
+    font-size: 2.5rem !important;
+    margin-bottom: 1rem;
+    text-align: center !important;
+  }
+
+  .admin-banner-description {
+    font-size: 1.2rem !important;
+    max-width: 95%;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+
+  .admin-banner-divider {
+    width: 80px;
+    margin: 1.5rem auto !important;
+  }
+
+  /* Hide carousel controls on mobile */
+  .hero-carousel .carousel-control-prev,
+  .hero-carousel .carousel-control-next {
+    display: none;
+  }
+
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+  }
+
+  .hero-carousel .carousel-indicators {
+    gap: 10px;
+    bottom: 15px;
+  }
+
+  .carousel-loading {
+    min-height: 450px;
+    padding: 120px 1.5rem 2rem 1.5rem; /* Increased from 80px to 120px */
+  }
+
+  /* Force center alignment on mobile */
+  .admin-banner-slide * {
+    text-align: center !important;
+  }
+}
+
+/* Mobile Large (576px and below) */
+@media (max-width: 576px) {
+  .shop-hero-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item,
+  .admin-banner-slide {
+    height: 50vh;
+    min-height: 400px;
+  }
+
+  .shop-hero-wrapper,
+  .admin-banner-slide {
+    padding: 110px 1rem 1.5rem 1rem; /* Increased from 70px to 110px */
+  }
+
+  .shop-hero-content {
+    gap: 1.5rem;
+  }
+
+  .shop-main-title {
+    font-size: 2.2rem !important;
+    margin-bottom: 0.8rem;
+  }
+
+  .shop-subtitle {
+    font-size: 1.1rem !important;
+    margin-bottom: 1.3rem;
+  }
+
+  .shop-cta-button {
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+  }
+
+  .farmer-bg {
+    height: 280px;
+    width: 280px;
+  }
+
+  .admin-banner-title {
+    font-size: 2.2rem !important;
+  }
+
+  .admin-banner-description {
+    font-size: 1.1rem !important;
+  }
+
+  .admin-banner-divider {
+    width: 70px;
+    margin: 1.2rem auto !important;
+  }
+
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 8px;
+    height: 8px;
+  }
+
+  .hero-carousel .carousel-indicators {
+    gap: 8px;
+    bottom: 12px;
+  }
+
+  .carousel-loading {
+    min-height: 400px;
+    padding: 110px 1rem 1.5rem 1rem; /* Increased from 70px to 110px */
+  }
+}
+
+/* Mobile Small (480px and below) */
+@media (max-width: 480px) {
+  .shop-hero-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item,
+  .admin-banner-slide {
+    height: 60vh;
+    min-height: 350px;
+  }
+
+  .shop-hero-wrapper,
+  .admin-banner-slide {
+    padding: 100px 1rem 1rem 1rem; /* Increased from 60px to 100px */
+  }
+
+  .shop-hero-content {
+    gap: 1rem;
+    margin-top: 4rem;
+  }
+
+  .shop-main-title {
+    font-size: 1.9rem !important;
+    margin-bottom: 0.6rem;
+  }
+
+  .shop-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .shop-cta-button {
+    padding: 0.7rem 1.8rem;
+    font-size: 0.9rem;
+    gap: 0.6rem;
+  }
+
+  .farmer-bg {
+    height: 240px;
+    width: 240px;
+  }
+
+  .shop-divider {
+    width: 90px;
+    margin: 1rem auto;
+  }
+
+  .admin-banner-title {
+    font-size: 1.9rem !important;
+    margin-bottom: 0.6rem;
+  }
+
+  .admin-banner-description {
+    font-size: 1rem !important;
+  }
+
+  .admin-banner-divider {
+    width: 60px;
+    margin: 1rem auto !important;
+  }
+
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 6px;
+    height: 6px;
+  }
+
+  .hero-carousel .carousel-indicators {
+    gap: 6px;
+    bottom: 10px;
+  }
+
+  .carousel-loading {
+    min-height: 350px;
+    padding: 100px 1rem 1rem 1rem; /* Increased from 60px to 100px */
+  }
+
+  .loading-spinner {
+    font-size: 1.3rem;
+  }
+}
+
+/* Extra Small Mobile (320px and below) */
+@media (max-width: 320px) {
+  .shop-hero-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item,
+  .admin-banner-slide {
+    height: 40vh;
+    min-height: 320px;
+  }
+
+  .shop-hero-wrapper,
+  .admin-banner-slide {
+    padding: 90px 0.75rem 1rem 0.75rem; /* Increased from 50px to 90px */
+  }
+
+  .shop-main-title {
+    font-size: 1.6rem !important;
+  }
+
+  .shop-subtitle {
+    font-size: 0.9rem !important;
+  }
+
+  .shop-cta-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .farmer-bg {
+    height: 200px;
+    width: 200px;
+  }
+
+  .admin-banner-title {
+    font-size: 1.6rem !important;
+  }
+
+  .admin-banner-description {
+    font-size: 0.9rem !important;
+  }
+
+  .carousel-loading {
+    min-height: 320px;
+    padding: 90px 0.75rem 1rem 0.75rem; /* Increased from 50px to 90px */
+  }
+
+  .loading-spinner {
+    font-size: 1.2rem;
+  }
+}
+
+/* Landscape Mobile (max-width: 768px and landscape) */
+@media (max-width: 768px) and (orientation: landscape) {
+  .shop-hero-wrapper,
+  .dynamic-carousel-wrapper,
+  .hero-carousel,
+  .hero-carousel .carousel-item,
+  .admin-banner-slide {
+    height: 100vh;
+  }
+
+  .shop-hero-wrapper,
+  .admin-banner-slide {
+    padding: 80px 2rem 2rem 2rem; /* Added proper top padding for landscape */
+  }
+
+  .shop-hero-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    gap: 2rem;
+  }
+
+  .shop-text-container {
+    text-align: left;
+    flex: 1;
+    max-width: 50%;
+  }
+
+  .shop-image-container {
+    flex: 1;
+    max-width: 45%;
+    justify-content: flex-end;
+  }
+
+  .farmer-bg {
+    height: 60vh;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .shop-divider {
+    margin: 1rem 0;
+  }
+}
+
+/* Fix for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .shop-cta-button:hover {
+    transform: none;
+    background: linear-gradient(90deg, #84cc16, #a3e635);
+  }
+
+  .shop-cta-button:hover .shop-arrow-icon {
+    transform: none;
+  }
+}
