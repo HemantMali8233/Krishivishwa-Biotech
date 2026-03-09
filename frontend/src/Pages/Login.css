@@ -846,3 +846,28 @@
 }
 
 
+/* Password visibility toggle icon */
+.password-toggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.password-toggle i {
+  font-size: 0.9rem;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+

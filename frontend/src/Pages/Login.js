@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Button, Form } from 'react-bootstrap';
 import { BsHouseDoorFill } from 'react-icons/bs';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import useAOS from '../utils/useAos';
 import '../Pages/Login.css';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -28,6 +29,8 @@ const LoginSignup = () => {
     password: '',
     confirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [showWelcome, setShowWelcome] = useState(false);
   const [showMainHeading, setShowMainHeading] = useState(false);
@@ -68,6 +71,8 @@ const LoginSignup = () => {
     setIsSignup(!isSignup);
     setFormData({ name: '', email: '', password: '', confirmPassword: '' });
     setErrors({});
+    setShowPassword(false);
+    setShowConfirmPassword(false);
   };
 
   const handleChange = (e) => {
@@ -369,7 +374,7 @@ const LoginSignup = () => {
                       <div className="input-icon">
                         <i className="fas fa-lock"></i>
                         <Form.Control
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder=" "
                           value={formData.password}
@@ -378,6 +383,14 @@ const LoginSignup = () => {
                           isInvalid={!!errors.password}
                         />
                         <label>Password</label>
+                        <button
+                          type="button"
+                          className="password-toggle"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                          {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
                       </div>
                       {errors.password && <div className="error-msg">{errors.password}</div>}
                       
@@ -419,7 +432,7 @@ const LoginSignup = () => {
                         <div className="input-icon">
                           <i className="fas fa-lock"></i>
                           <Form.Control
-                            type="password"
+                            type={showConfirmPassword ? "text" : "password"}
                             name="confirmPassword"
                             placeholder=" "
                             value={formData.confirmPassword}
@@ -428,6 +441,14 @@ const LoginSignup = () => {
                             isInvalid={!!errors.confirmPassword}
                           />
                           <label>Confirm Password</label>
+                          <button
+                            type="button"
+                            className="password-toggle"
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                          >
+                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                          </button>
                         </div>
                         {errors.confirmPassword && <div className="error-msg">{errors.confirmPassword}</div>}
                       </div>

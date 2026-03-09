@@ -152,6 +152,34 @@ const ShopPage = () => {
     setShowLoginModal(true);
   };
 
+  const LoginRequiredModal = () => (
+    <div className="login-required-overlay">
+      <div className="login-required-modal">
+        <h3>Login required</h3>
+        <p>You need to log in before buying products.</p>
+        <div className="login-required-actions">
+          <button
+            className="login-required-back"
+            onClick={() => setShowLoginModal(false)}
+          >
+            Back
+          </button>
+          <button
+            className="login-required-login"
+            onClick={() => {
+              setShowLoginModal(false);
+              navigate('/login', {
+                state: { showSignup: false, from: loginRedirectFrom },
+              });
+            }}
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   const addToCart = (prod, qty) => {
     const q = qty || quantities[prod._id] || 1;
     const idx = cartItems.findIndex((i) => i._id === prod._id);
@@ -223,6 +251,7 @@ const ShopPage = () => {
           }}
           onRequireLogin={handleRequireLogin}
         />
+        {showLoginModal && <LoginRequiredModal />}
         {toast.show && (
           <ToastNotification message={toast.message} onClose={() => setToast({ show: false, message: '' })} />
         )}
@@ -246,31 +275,7 @@ const ShopPage = () => {
           <ToastNotification message={toast.message} onClose={() => setToast({ show: false, message: '' })} />
         )}
         {showLoginModal && (
-          <div className="login-required-overlay">
-            <div className="login-required-modal">
-              <h3>Login required</h3>
-              <p>You need to log in before buying products.</p>
-              <div className="login-required-actions">
-                <button
-                  className="login-required-back"
-                  onClick={() => setShowLoginModal(false)}
-                >
-                  Back
-                </button>
-                <button
-                  className="login-required-login"
-                  onClick={() => {
-                    setShowLoginModal(false);
-                    navigate('/login', {
-                      state: { showSignup: false, from: loginRedirectFrom },
-                    });
-                  }}
-                >
-                  Login
-                </button>
-              </div>
-            </div>
-          </div>
+          <LoginRequiredModal />
         )}
       </>
     );
@@ -355,51 +360,23 @@ const ShopPage = () => {
         </div>
       </div>
 
-      {/* Floating Cart Button (Desktop only) */}
-      {!isMobile && (
-        <button 
-          className="floating-cart-btn" 
-          onClick={() => setShowCart(true)}
-          aria-label={`Cart (${cartItems.length})`}
-        >
-          <FaShoppingCart />
-          {cartItems.length > 0 && (
-            <span className="cart-badge">{cartItems.length}</span>
-          )}
-        </button>
-      )}
+      {/* Floating Cart Button (All devices) */}
+      <button 
+        className="floating-cart-btn" 
+        onClick={() => setShowCart(true)}
+        aria-label={`Cart (${cartItems.length})`}
+      >
+        <FaShoppingCart />
+        {cartItems.length > 0 && (
+          <span className="cart-badge">{cartItems.length}</span>
+        )}
+      </button>
 
       {toast.show && (
         <ToastNotification message={toast.message} onClose={() => setToast({ show: false, message: '' })} />
       )}
 
-      {showLoginModal && (
-        <div className="login-required-overlay">
-          <div className="login-required-modal">
-            <h3>Login required</h3>
-            <p>You need to log in before buying products.</p>
-            <div className="login-required-actions">
-              <button
-                className="login-required-back"
-                onClick={() => setShowLoginModal(false)}
-              >
-                Back
-              </button>
-              <button
-                className="login-required-login"
-                onClick={() => {
-                  setShowLoginModal(false);
-                  navigate('/login', {
-                    state: { showSignup: false, from: loginRedirectFrom },
-                  });
-                }}
-              >
-                Login
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {showLoginModal && <LoginRequiredModal />}
     </div>
   );
 };

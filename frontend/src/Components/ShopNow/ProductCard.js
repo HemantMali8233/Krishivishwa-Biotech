@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   FaStar,
   FaRegStar,
@@ -25,6 +25,7 @@ const ProductCard = ({
 }) => {
   const [showPayment, setShowPayment] = useState(false);
   const [localQuantity, setLocalQuantity] = useState(quantity || 1);
+  const orderPlacedRef = useRef(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -155,8 +156,18 @@ const ProductCard = ({
         <CheckoutFlow
           product={product}
           quantity={localQuantity}
-          onClose={() => setShowPayment(false)}
-          onOrderComplete={() => setShowPayment(false)}
+          onClose={() => {
+            // If user exits checkout without placing order, move this product into cart
+            if (!orderPlacedRef.current && onAddToCart) {
+              onAddToCart(product, localQuantity);
+            }
+            orderPlacedRef.current = false;
+            setShowPayment(false);
+          }}
+          onOrderComplete={() => {
+            orderPlacedRef.current = true;
+            setShowPayment(false);
+          }}
         />
       )}
     </>

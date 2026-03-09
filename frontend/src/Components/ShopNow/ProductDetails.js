@@ -61,6 +61,7 @@ const ProductDetails = ({
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareMessage, setShareMessage] = useState('');
   const [showShareMessage, setShowShareMessage] = useState(false);
+  const orderPlacedRef = useRef(false);
 
   const [activeTab, setActiveTab] = useState('description');
   const { user } = useAuth();
@@ -223,10 +224,16 @@ const ProductDetails = ({
   };
 
   const handleCloseCheckout = () => {
+    // If user exits checkout without placing order, move this product into cart
+    if (!orderPlacedRef.current && onAddToCart) {
+      onAddToCart(product, quantity);
+    }
+    orderPlacedRef.current = false;
     setShowCheckoutFlow(false);
   };
 
   const handleOrderComplete = (orderData) => {
+    orderPlacedRef.current = true;
     console.log('Order completed:', orderData);
     if (onCheckout) {
       onCheckout({
@@ -426,14 +433,6 @@ const ProductDetails = ({
             <div className="policy">
               <FaTruck />
               <span>Free delivery on orders over ₹500</span>
-            </div>
-            <div className="policy">
-              <GiReturnArrow />
-              <span>7-day easy returns</span>
-            </div>
-            <div className="policy">
-              <FaShieldAlt />
-              <span>1-year warranty</span>
             </div>
           </div>
         </div>

@@ -129,7 +129,7 @@ const Footer = () => {
 
             {/* Footer Bottom */}
             <div className="footer-bottom">
-                <p>© 2025 Krishivishwa Biotech. All rights reserved.</p>
+                <p>© 2026 Krishivishwa Biotech. All rights reserved.</p>
                 <div className="footer-links">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>

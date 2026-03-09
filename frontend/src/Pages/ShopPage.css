@@ -1554,9 +1554,9 @@
     text-align: center;
   }
 
-  /* Hide floating cart on mobile (using mobile controls instead) */
+  /* Ensure floating cart button remains visible on mobile */
   .floating-cart-btn {
-    display: none;
+    display: flex;
   }
 
   /* Main content padding */
@@ -2121,9 +2121,9 @@
     text-align: center;
   }
 
-  /* Hide floating cart on mobile (using mobile controls instead) */
+  /* Ensure floating cart remains visible on mobile */
   .floating-cart-btn {
-    display: none;
+    display: flex;
   }
 
   /* Main content padding */

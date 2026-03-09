@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { NavbarProvider } from './contexts/NavbarContext';
 import TopNavbar from './Components/TopNavbar';
@@ -11,7 +11,6 @@ import Consultancy from './Pages/Consulatncy';
 import Gallery from './Pages/Gallery';
 import Shop from './Pages/ShopPage';
 import Update from './Pages/LatestUpdates'
-import { useEffect } from 'react';
 import { AuthProvider } from "./context/AuthContext";
 import MyDetails from './Pages/MyDetails';
 
@@ -27,6 +26,11 @@ function LayoutWrapper({ children }) {
       document.body.style.overflow = 'hidden';
     }
   }, [hideLayout]);
+
+  // Always scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <>

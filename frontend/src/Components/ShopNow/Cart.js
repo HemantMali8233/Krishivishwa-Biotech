@@ -302,6 +302,26 @@ const Cart = ({
               
               <div className="summary-card">
                 <div className="summary-details">
+                  {/* Item-wise breakdown */}
+                  <div className="summary-items">
+                    {items.map((item) => (
+                      <div
+                        key={item._id || item.id}
+                        className="summary-row summary-item-row"
+                      >
+                        <span className="label">
+                          {item.name} × {item.quantity}
+                        </span>
+                        <span className="value">
+                          ₹{(item.price * item.quantity).toLocaleString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="summary-divider"></div>
+
+                  {/* Totals */}
                   <div className="summary-row">
                     <span className="label">Subtotal</span>
                     <span className="value">₹{subtotal.toLocaleString()}</span>

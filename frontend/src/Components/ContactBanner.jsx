@@ -70,7 +70,7 @@ const ContactBanner = () => {
 
           <div className="ct-contact-options">
             <motion.a
-              href="mailto:info@agritech.com"
+              href="mailto:krishivishwabiotech@gmail.com"
               className="ct-contact-button email"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ const ContactBanner = () => {
             </motion.a>
 
             <motion.a
-              href="tel:+1234567890"
+              href="tel:9960492426"
               className="ct-contact-button phone"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
