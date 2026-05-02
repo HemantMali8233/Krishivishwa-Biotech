@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import {
   FaStar,
   FaRegStar,
@@ -34,6 +34,7 @@ import './ProductDetails.css';
 import CheckoutFlow from './CheckoutFlow';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { getProductVariants, getEffectiveProduct, formatVariantLabel } from '../../utils/productVariants';
 
 const backendRootURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -49,7 +50,7 @@ const ProductDetails = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [variantIndex, setVariantIndex] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const carouselRef = useRef(null);
@@ -74,12 +75,26 @@ const ProductDetails = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    setVariantIndex(0);
+  }, [product?._id, product?.id]);
+
   const tabContents = {
     description: product?.description || "No description available.",
     use: product?.use || "No usage information available.",
     benefits: product?.benefits || "No benefits information available.",
     application: product?.applicationMethod || "No application method provided."
   };
+
+  const variants = useMemo(
+    () => (product ? getProductVariants(product) : []),
+    [product]
+  );
+
+  const displayProduct = useMemo(
+    () => (product ? getEffectiveProduct(product, variantIndex) : null),
+    [product, variantIndex]
+  );
 
   if (!product) {
     return (
@@ -92,13 +107,16 @@ const ProductDetails = ({
     );
   }
 
-  const productImages = product.images || [product.image || ''];
+  const linePrice = displayProduct?.price ?? product.price ?? 0;
+  const lineStock = displayProduct?.stock ?? product.stock ?? 0;
+  const lineImage = displayProduct?.image || product.image || '';
+  const lineOriginal = displayProduct?.originalPrice;
 
   // Share functionality
   const generateShareData = () => {
     const productUrl = window.location.href;
     const productName = product.name || product.title || 'Check out this product';
-    const productPrice = `₹${(product.price || 0).toLocaleString()}`;
+    const productPrice = `₹${(linePrice || 0).toLocaleString()}`;
     const shareText = `${productName} - ${productPrice}`;
     const shareDescription = product.description ? 
       product.description.substring(0, 100) + '...' : 
@@ -210,7 +228,7 @@ const ProductDetails = ({
   };
 
   const handleAddToCartClick = () => {
-    onAddToCart(product, quantity);
+    onAddToCart(displayProduct, quantity);
   };
 
   const handleBuyNowClick = () => {
@@ -224,9 +242,8 @@ const ProductDetails = ({
   };
 
   const handleCloseCheckout = () => {
-    // If user exits checkout without placing order, move this product into cart
     if (!orderPlacedRef.current && onAddToCart) {
-      onAddToCart(product, quantity);
+      onAddToCart(displayProduct, quantity);
     }
     orderPlacedRef.current = false;
     setShowCheckoutFlow(false);
@@ -237,7 +254,7 @@ const ProductDetails = ({
     console.log('Order completed:', orderData);
     if (onCheckout) {
       onCheckout({
-        product,
+        product: displayProduct,
         quantity,
         orderData
       });
@@ -265,8 +282,9 @@ const ProductDetails = ({
     }
   };
 
-  const totalPrice = (product.price * quantity).toLocaleString();
-  const isOutOfStock = product.stock !== undefined ? product.stock < 5 : false;
+  const totalPrice = (linePrice * quantity).toLocaleString();
+  const isOutOfStock = lineStock === 0;
+  const isLowStock = lineStock > 0 && lineStock < 5;
 
   return (
     <div className="product-details-container">
@@ -284,17 +302,17 @@ const ProductDetails = ({
       <div className="product-details-grid">
         {/* Product Images */}
         <div className="product-images">
-          {productImages.length > 1 && (
+          {variants.length > 1 && (
             <div className="thumbnail-container">
-              {productImages.map((img, index) => (
+              {variants.map((v, index) => (
                 <div
                   key={index}
-                  className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                  onClick={() => setSelectedImage(index)}
+                  className={`thumbnail ${variantIndex === index ? 'active' : ''}`}
+                  onClick={() => setVariantIndex(index)}
                 >
                   <img
-                    src={img ? `${backendRootURL}${img}` : 'https://via.placeholder.com/100?text=No+Image'}
-                    alt={`${product.name || product.title} thumbnail ${index}`}
+                    src={v.image ? `${backendRootURL}${v.image}` : 'https://via.placeholder.com/100?text=No+Image'}
+                    alt={`${product.name || product.title} ${formatVariantLabel(v)}`}
                     style={{
                       width: "80px",
                       height: "80px",
@@ -309,7 +327,7 @@ const ProductDetails = ({
           )}
           <div className="main-image">
             <img
-              src={productImages[selectedImage] ? `${backendRootURL}${productImages[selectedImage]}` : 'https://via.placeholder.com/500x500?text=No+Image'}
+              src={lineImage ? `${backendRootURL}${lineImage}` : 'https://via.placeholder.com/500x500?text=No+Image'}
               alt={product.name || product.title || 'Product Image'}
               onError={(e) => { e.target.src = 'https://via.placeholder.com/500x500?text=Product+Image'; }}
               style={{
@@ -344,16 +362,42 @@ const ProductDetails = ({
           </div>
 
           <div className="price-container">
-            {product.originalPrice && (
-              <span className="original-price">₹{product.originalPrice.toLocaleString()}</span>
+            {lineOriginal != null && Number(lineOriginal) > 0 && (
+              <span className="original-price">₹{Number(lineOriginal).toLocaleString()}</span>
             )}
-            <span className="current-price">₹{(product.price || 0).toLocaleString()}</span>
-            {product.originalPrice && product.price && (
+            <span className="current-price">₹{(linePrice || 0).toLocaleString()}</span>
+            {lineOriginal != null && Number(lineOriginal) > 0 && linePrice != null && (
               <span className="discount-percent">
-                {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                {Math.round(((Number(lineOriginal) - linePrice) / Number(lineOriginal)) * 100)}% OFF
               </span>
             )}
           </div>
+
+          {variants.length >= 1 && (
+            <div className="pd-variant-row">
+              <span className="pd-variant-label">Pack size</span>
+              <div className="pd-variant-pills" role="group" aria-label="Select pack size">
+                {variants.map((v, i) => {
+                  const unavailable = Number(v.stock) <= 0;
+                  return (
+                    <button
+                      type="button"
+                      key={i}
+                      className={
+                        variantIndex === i ? "pd-variant-pill pd-variant-pill--active" : "pd-variant-pill"
+                      }
+                      onClick={() => !unavailable && setVariantIndex(i)}
+                      disabled={unavailable}
+                      aria-pressed={variantIndex === i}
+                    >
+                      <span className="pd-variant-pill-size">{formatVariantLabel(v)}</span>
+                      <span className="pd-variant-pill-price">₹{Number(v.price).toLocaleString()}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="quantity-total">
             <div className="quantity-selector">
@@ -374,7 +418,7 @@ const ProductDetails = ({
               'Out of Stock'
             ) : (
               <>
-                <FaCheckCircle /> In Stock
+                <FaCheckCircle /> {isLowStock ? `Only ${lineStock} left` : 'In Stock'}
               </>
             )}
           </div>
@@ -511,13 +555,13 @@ const ProductDetails = ({
             <div className="share-modal-content">
               <div className="share-product-info">
                 <img 
-                  src={product.image ? `${backendRootURL}${product.image}` : 'https://via.placeholder.com/60x60?text=Product'}
+                  src={lineImage ? `${backendRootURL}${lineImage}` : 'https://via.placeholder.com/60x60?text=Product'}
                   alt={product.name || product.title}
                   className="share-product-image"
                 />
                 <div className="share-product-details">
                   <h4>{product.name || product.title}</h4>
-                  <p>₹{(product.price || 0).toLocaleString()}</p>
+                  <p>₹{(linePrice || 0).toLocaleString()}</p>
                 </div>
               </div>
               
@@ -555,7 +599,7 @@ const ProductDetails = ({
       {/* Checkout Flow Component */}
       {showCheckoutFlow && (
         <CheckoutFlow
-          product={product}
+          product={displayProduct}
           quantity={quantity}
           onClose={handleCloseCheckout}
           onOrderComplete={handleOrderComplete}

@@ -49,8 +49,8 @@ exports.changePassword = async (req, res) => {
       return res.status(400).json({ message: 'Current password is incorrect' });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    req.admin.password = await bcrypt.hash(newPassword, salt);
+    // Assign the new plain password; Admin model pre-save hook will hash it once
+    req.admin.password = newPassword;
     await req.admin.save();
 
     res.json({ message: 'Password changed successfully' });

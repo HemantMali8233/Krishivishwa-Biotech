@@ -93,9 +93,10 @@ const Updates = () => {
       alert("No phone number available")
       return
     }
-    const message = encodeURIComponent(`${settings.welcomeMessage}\n\nWhatsApp Group: ${settings.whatsappGroupLink}`)
+    const message = `${settings.welcomeMessage}\n\nWhatsApp Group: ${settings.whatsappGroupLink}`
     const cleanPhone = phone.replace(/[^\d]/g, '')
-    const whatsappLink = `https://wa.me/${cleanPhone}?text=${message}`
+    const encodedMessage = encodeURIComponent(message)
+    const whatsappLink = `https://wa.me/${cleanPhone}?text=${encodedMessage}`
     window.open(whatsappLink, '_blank')
   }
 

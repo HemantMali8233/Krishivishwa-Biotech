@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const userAuthMiddleware = require('../middleware/userAuthMiddleware');
+const optionalUserAuthMiddleware = require('../middleware/optionalUserAuthMiddleware');
 
 // Multer setup for transaction screenshots
 const uploadDir = path.join(__dirname, '..', 'uploads');
@@ -32,15 +33,10 @@ router.get('/', orderController.getOrders);
 router.get('/analytics/stats', orderController.getOrderStats);
 router.get('/:id', orderController.getOrderById);
 
-// Create order (auth OPTIONAL: attach user if token present)
+// Create order: optional Bearer — attach user if valid; never 401 on expired/invalid JWT
 router.post(
   '/',
-  (req, res, next) => {
-    if (req.headers.authorization?.startsWith('Bearer ')) {
-      return userAuthMiddleware(req, res, next);
-    }
-    next();
-  },
+  optionalUserAuthMiddleware,
   upload.single('transactionScreenshot'),
   orderController.createOrder
 );

@@ -44,7 +44,7 @@ const Footer = () => {
                 <div className="footer-column">
                     <h3>Contact Us</h3>
                     <ul>
-                        <li><a href="tel:9960492426" className="contact-link"><FaPhoneAlt className="icon" /> 9960492426</a></li>
+                        <li><a href="tel:7066655562" className="contact-link"><FaPhoneAlt className="icon" /> 7066655562</a></li>
                         <li><a href="tel:02424–261100" className="contact-link"><FaPhoneAlt className="icon" /> 02424–261100</a></li>
                         <li className="email-row">
                             <a href="mailto:krishivishwabiotech@gmail.com" className="email-link address-link">
@@ -115,7 +115,7 @@ const Footer = () => {
                         <a href="https://youtube.com/@krishivishwabiotech3690?feature=shared " className="social-hover youtube"><FaYoutube className="icons" /><span>YouTube</span></a>
                         <a href="https://www.facebook.com/share/15d6nFohvz/?mibextid=wwXIfr" className="social-hover facebook"><FaFacebookF className="icons" /><span>Facebook</span></a>
                         <a
-                            href="https://wa.me/919960492426"
+                            href="https://wa.me/917066655562"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="social-hover whatsapp"

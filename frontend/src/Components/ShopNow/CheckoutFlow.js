@@ -12,9 +12,10 @@ FaLock,
 FaSpinner,
 } from "react-icons/fa";
 import "./CheckoutFlow.css";
-import TruckAnimation from "./TruckAnimation";
+import TruckAnimation, { TRUCK_ANIMATION_MS } from "./TruckAnimation";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { cartLineKey } from "../../utils/productVariants";
 
 const backendRootURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -256,12 +257,14 @@ const handlePlaceOrder = async (paymentOverride = null) => {
     setIsProcessing(true);
 
     try {
-        const ANIMATION_MS = 10000; // must match TruckAnimation.js timer / CSS keyframes
         const startedAt = Date.now();
         const effectivePaymentData = paymentOverride || paymentData;
 
         const orderData = {
-            items: orderItems,
+            items: orderItems.map((item) => ({
+              ...item,
+              productId: item.productId ?? item._id ?? item.id,
+            })),
             customerInfo: {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
@@ -307,10 +310,13 @@ const handlePlaceOrder = async (paymentOverride = null) => {
         const result = await response.json();
 
         if (response.ok) {
-            // Wait for the truck animation to finish BEFORE notifying parent / closing modal
+            // Persist completes immediately — admin/API see the order without waiting on animation.
+            // Close modal once truck animation completes (no extra stationary delay beyond that).
             const elapsed = Date.now() - startedAt;
-            const remaining = Math.max(0, ANIMATION_MS - elapsed);
-            await new Promise((resolve) => setTimeout(resolve, remaining));
+            const remaining = Math.max(0, TRUCK_ANIMATION_MS - elapsed);
+            if (remaining > 0) {
+              await new Promise((resolve) => setTimeout(resolve, remaining));
+            }
 
             if (onOrderComplete) onOrderComplete(result.order || {});
             onClose();
@@ -337,7 +343,7 @@ const renderStepContent = () => {
                     <h3>Review Your Order</h3>
                     <div className="order-items">
                         {orderItems.map((item, index) => (
-                            <div key={index} className="order-item">
+                            <div key={cartLineKey(item)} className="order-item">
                                 <img
                                     src={
                                         item.image ? `${backendRootURL}${item.image}` : "/placeholder.svg"
@@ -346,7 +352,12 @@ const renderStepContent = () => {
                                     className="order-item-image"
                                 />
                                 <div className="order-item-details">
-                                    <h4>{item.name || item.title}</h4>
+                                    <h4>
+                                      {item.name || item.title}
+                                      {item.variantLabel ? (
+                                        <span className="order-item-variant"> ({item.variantLabel})</span>
+                                      ) : null}
+                                    </h4>
                                     <p className="order-item-category">{item.category}</p>
                                     <div className="order-item-pricing">
                                         <span className="quantity">Qty: {item.quantity}</span>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import {
   FaStar,
   FaRegStar,
@@ -11,6 +11,7 @@ import './ProductCard.css';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CheckoutFlow from './CheckoutFlow';
+import { getProductVariants, getEffectiveProduct, formatVariantLabel } from '../../utils/productVariants';
 
 const backendRootURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -25,9 +26,20 @@ const ProductCard = ({
 }) => {
   const [showPayment, setShowPayment] = useState(false);
   const [localQuantity, setLocalQuantity] = useState(quantity || 1);
+  const [variantIndex, setVariantIndex] = useState(0);
   const orderPlacedRef = useRef(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const variants = useMemo(() => getProductVariants(product), [product]);
+  const displayProduct = useMemo(
+    () => getEffectiveProduct(product, variantIndex),
+    [product, variantIndex]
+  );
+
+  useEffect(() => {
+    setVariantIndex(0);
+  }, [product?._id, product?.id]);
 
   const renderStars = (rating) => {
     const stars = [];
@@ -60,7 +72,7 @@ const ProductCard = ({
   };
 
   const handleAddToCart = () => {
-    onAddToCart(product, localQuantity);
+    onAddToCart(displayProduct, localQuantity);
   };
 
   const handleBuyNow = () => {
@@ -73,6 +85,11 @@ const ProductCard = ({
     setShowPayment(true);
   };
 
+  const price = displayProduct.price;
+  const stock = displayProduct.stock;
+  const image = displayProduct.image;
+  const origPrice = displayProduct.originalPrice;
+
   return (
     <>
       <div
@@ -82,27 +99,27 @@ const ProductCard = ({
         <div className="product-card__image">
           <img
             src={
-              product.image
-                ? `${backendRootURL}${product.image}`
+              image
+                ? `${backendRootURL}${image}`
                 : '/placeholder.svg?height=240&width=240&query=product'
             }
             alt={product.name}
             onClick={() => onProductSelect(product)}
           />
-          {product.stock === 0 && (
+          {stock === 0 && (
             <span className="product-card__badge product-card__badge--out">
               Out of Stock
             </span>
           )}
-          {product.stock > 0 && product.stock < 5 && (
+          {stock > 0 && stock < 5 && (
             <span className="product-card__badge product-card__badge--low">
-              Only {product.stock} left
+              Only {stock} left
             </span>
           )}
-          {product.stock >= 5 && product.originalPrice && (
+          {stock >= 5 && origPrice != null && Number(origPrice) > 0 && (
             <span className="product-card__badge product-card__badge--discount">
               {Math.round(
-                ((product.originalPrice - product.price) / product.originalPrice) *
+                ((Number(origPrice) - price) / Number(origPrice)) *
                   100
               )}
               % off
@@ -125,26 +142,51 @@ const ProductCard = ({
           </div>
           <div className="product-card__price">
             <span className="product-card__current-price">
-              ₹{product.price.toLocaleString()}
+              ₹{Number(price).toLocaleString()}
             </span>
-            {product.originalPrice && product.stock >= 5 && (
+            {origPrice != null && Number(origPrice) > 0 && stock >= 5 && (
               <span className="product-card__original-price">
-                ₹{product.originalPrice.toLocaleString()}
+                ₹{Number(origPrice).toLocaleString()}
               </span>
             )}
+          </div>
+          <div
+            className="product-card__variant-pills"
+            role="group"
+            aria-label="Pack size"
+          >
+            {variants.map((v, i) => {
+              const unavailable = Number(v.stock) <= 0;
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  className={
+                    variantIndex === i
+                      ? "product-card__variant-pill product-card__variant-pill--active"
+                      : "product-card__variant-pill"
+                  }
+                  onClick={() => !unavailable && setVariantIndex(i)}
+                  disabled={unavailable}
+                  aria-pressed={variantIndex === i}
+                >
+                  {formatVariantLabel(v)}
+                </button>
+              );
+            })}
           </div>
           <div className="product-card__buttons">
             <button
               className="product-card__add-cart"
               onClick={handleAddToCart}
-              disabled={product.stock === 0}
+              disabled={stock === 0}
             >
               <FaShoppingCart /> Add to Cart
             </button>
             <button
               className="product-card__buy-now"
               onClick={handleBuyNow}
-              disabled={product.stock === 0}
+              disabled={stock === 0}
             >
               <FaBolt /> Buy Now
             </button>
@@ -154,12 +196,11 @@ const ProductCard = ({
 
       {showPayment && (
         <CheckoutFlow
-          product={product}
+          product={displayProduct}
           quantity={localQuantity}
           onClose={() => {
-            // If user exits checkout without placing order, move this product into cart
             if (!orderPlacedRef.current && onAddToCart) {
-              onAddToCart(product, localQuantity);
+              onAddToCart(displayProduct, localQuantity);
             }
             orderPlacedRef.current = false;
             setShowPayment(false);

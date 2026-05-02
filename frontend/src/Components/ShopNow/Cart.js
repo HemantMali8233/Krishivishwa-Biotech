@@ -6,6 +6,7 @@ import { MdLocalShipping, MdSecurity } from 'react-icons/md';
 import { HiSparkles } from 'react-icons/hi';
 import CheckoutFlow from './CheckoutFlow';
 import './Cart.css';
+import { cartLineKey } from '../../utils/productVariants';
 
 const backendRootURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -124,7 +125,7 @@ const Cart = ({
                 // Mobile view - list layout
                 <div className="mobile-products-list">
                   {items.map((item, index) => (
-                    <div key={item._id || item.id} className="mobile-product-card">
+                    <div key={cartLineKey(item)} className="mobile-product-card">
                       <div className="mobile-product-image-wrapper">
                         <img
                           src={item.image ? `${backendRootURL}${item.image}` : "https://via.placeholder.com/80"}
@@ -141,6 +142,9 @@ const Cart = ({
                       
                       <div className="mobile-product-details">
                         <h3 className="mobile-product-title">{item.name}</h3>
+                        {item.variantLabel && (
+                          <p className="mobile-product-variant">{item.variantLabel}</p>
+                        )}
                         <p className="mobile-product-category">{item.category}</p>
                         
                         {item.rating && (
@@ -167,7 +171,7 @@ const Cart = ({
                           <div className="mobile-quantity-buttons">
                             <button
                               className="qty-btn qty-minus"
-                              onClick={() => onUpdateItem(item._id || item.id, item.quantity - 1)}
+                              onClick={() => onUpdateItem(cartLineKey(item), item.quantity - 1)}
                               disabled={item.quantity <= 1}
                             >
                               <FaChevronDown />
@@ -175,7 +179,7 @@ const Cart = ({
                             <span className="qty-display">{item.quantity}</span>
                             <button
                               className="qty-btn qty-plus"
-                              onClick={() => onUpdateItem(item._id || item.id, item.quantity + 1)}
+                              onClick={() => onUpdateItem(cartLineKey(item), item.quantity + 1)}
                             >
                               <FaChevronUp />
                             </button>
@@ -188,7 +192,7 @@ const Cart = ({
                         
                         <button
                           className="mobile-remove-btn"
-                          onClick={() => onRemoveItem(item._id || item.id)}
+                          onClick={() => onRemoveItem(cartLineKey(item))}
                           title="Remove item"
                         >
                           <FaTrash />
@@ -211,7 +215,7 @@ const Cart = ({
                   
                   <div className="table-body">
                     {items.map((item, index) => (
-                      <div key={item._id || item.id} className="table-row" style={{ '--index': index }}>
+                      <div key={cartLineKey(item)} className="table-row" style={{ '--index': index }}>
                         <div className="td-product">
                           <div className="product-info">
                             <div className="product-image-wrapper">
@@ -229,6 +233,9 @@ const Cart = ({
                             </div>
                             <div className="product-details">
                               <h3 className="product-title">{item.name}</h3>
+                              {item.variantLabel && (
+                                <p className="product-variant-line">{item.variantLabel}</p>
+                              )}
                               <p className="product-category">{item.category}</p>
                               {item.rating && (
                                 <div className="rating">
@@ -258,7 +265,7 @@ const Cart = ({
                           <div className="quantity-control">
                             <button
                               className="qty-btn qty-minus"
-                              onClick={() => onUpdateItem(item._id || item.id, item.quantity - 1)}
+                              onClick={() => onUpdateItem(cartLineKey(item), item.quantity - 1)}
                               disabled={item.quantity <= 1}
                             >
                               <FaChevronDown />
@@ -266,7 +273,7 @@ const Cart = ({
                             <span className="qty-display">{item.quantity}</span>
                             <button
                               className="qty-btn qty-plus"
-                              onClick={() => onUpdateItem(item._id || item.id, item.quantity + 1)}
+                              onClick={() => onUpdateItem(cartLineKey(item), item.quantity + 1)}
                             >
                               <FaChevronUp />
                             </button>
@@ -280,7 +287,7 @@ const Cart = ({
                         <div className="td-action">
                           <button
                             className="remove-btn"
-                            onClick={() => onRemoveItem(item._id || item.id)}
+                            onClick={() => onRemoveItem(cartLineKey(item))}
                             title="Remove item"
                           >
                             <FaTrash />
@@ -306,11 +313,12 @@ const Cart = ({
                   <div className="summary-items">
                     {items.map((item) => (
                       <div
-                        key={item._id || item.id}
+                        key={cartLineKey(item)}
                         className="summary-row summary-item-row"
                       >
                         <span className="label">
-                          {item.name} × {item.quantity}
+                          {item.name}
+                          {item.variantLabel ? ` (${item.variantLabel})` : ''} × {item.quantity}
                         </span>
                         <span className="value">
                           ₹{(item.price * item.quantity).toLocaleString()}

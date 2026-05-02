@@ -10,6 +10,7 @@ import Cart from '../Components/ShopNow/Cart';
 import ProductSections from '../Components/ShopNow/ProductSection';
 import ToastNotification from '../Components/ShopNow/ToastNotification';
 import { useAuth } from '../context/AuthContext';
+import { cartLineKey } from '../utils/productVariants';
 import { FaStar, FaRegClock, FaFilter, FaShoppingCart, FaTimes } from 'react-icons/fa';
 import { BsTrophy } from 'react-icons/bs';
 import './ShopPage.css';
@@ -182,7 +183,8 @@ const ShopPage = () => {
 
   const addToCart = (prod, qty) => {
     const q = qty || quantities[prod._id] || 1;
-    const idx = cartItems.findIndex((i) => i._id === prod._id);
+    const key = cartLineKey(prod);
+    const idx = cartItems.findIndex((i) => cartLineKey(i) === key);
     if (idx >= 0) {
       const arr = [...cartItems];
       arr[idx].quantity += q;
@@ -194,16 +196,16 @@ const ShopPage = () => {
     }
   };
 
-  const updateQty = (id, q) => {
+  const updateQty = (lineKey, q) => {
     if (q < 1) return;
     setCartItems((c) =>
-      c.map((item) => (item._id === id ? { ...item, quantity: q } : item))
+      c.map((item) => (cartLineKey(item) === lineKey ? { ...item, quantity: q } : item))
     );
   };
 
-  const removeItem = (id) => {
-    const removed = cartItems.find((i) => i._id === id);
-    setCartItems((c) => c.filter((i) => i._id !== id));
+  const removeItem = (lineKey) => {
+    const removed = cartItems.find((i) => cartLineKey(i) === lineKey);
+    setCartItems((c) => c.filter((i) => cartLineKey(i) !== lineKey));
     if (removed) showToast(`${removed.name} removed`);
   };
 

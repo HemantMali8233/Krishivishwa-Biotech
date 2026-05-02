@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import axios from "axios";
 import {
   Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Legend, Tooltip
@@ -369,49 +369,228 @@ export default function AdminDashboard() {
 
   // === GENERATE WHATSAPP MESSAGE (status-based) ===
   const generateWhatsAppMessage = (order, language = 'english') => {
-    const customerName = `${order.customerInfo?.firstName} ${order.customerInfo?.lastName}`;
+    const customerName = `${order.customerInfo?.firstName} ${order.customerInfo?.lastName}`.trim();
     const orderDate = new Date(order.orderDate).toLocaleDateString('en-IN');
-    const paymentMethod = order.paymentMethod === 'online' ? 'Online Payment (Razorpay)' : 'Cash on Delivery';
 
-    const productsList = order.items?.map((item, index) => {
-      if (language === 'marathi') {
-        return `${index + 1}. ${item.name || item.title}\n   मात्रा: ${item.quantity}\n   किंमत: ₹${item.price}\n   एकूण: ₹${item.quantity * item.price}`;
-      } else {
-        return `${index + 1}. ${item.name || item.title}\n   Qty: ${item.quantity}\n   Price: ₹${item.price}\n   Total: ₹${item.quantity * item.price}`;
-      }
-    }).join('\n\n') || '';
+    // Build product list in required format for WhatsApp
+    const productsList =
+      order.items
+        ?.map((item, index) => {
+          const name = item.name || item.title || 'Product';
+          const qty = item.quantity || 0;
+          const price = item.price || 0;
+          const total = qty * price;
+
+          if (language === 'marathi') {
+            return (
+              `${index + 1}. ${name}\n` +
+              `Qty: ${qty}\n` +
+              `Price: ₹${price}\n` +
+              `Total: ₹${total}`
+            );
+          }
+
+          return (
+            `${index + 1}. ${name}\n` +
+            `Qty: ${qty}\n` +
+            `Price: ₹${price}\n` +
+            `Total: ₹${total}`
+          );
+        })
+        .join('\n\n') || 'No products found.';
 
     const addressLine = `${order.customerInfo?.address}, ${order.customerInfo?.city}, ${order.customerInfo?.state} - ${order.customerInfo?.zipCode}`;
-    const totalAmount = `₹${order.pricing?.total?.toLocaleString() || '0'}`;
+    const totalAmount = order.pricing?.total?.toLocaleString() || '0';
 
     const statusMessages = {
+      // 1️⃣ ORDER RECEIVED (pending)
       pending: {
-        en: `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech* - Order Received!\n\n📋 Order ID: ${order.orderId}\n📅 Order Date: ${orderDate}\n📦 Status: *Pending*\n\n🛍️ *Products:*\n${productsList}\n\n💰 Total: ${totalAmount}\n📍 Address: ${addressLine}\n\nWe will assign your order soon. Thank you! 🙏`,
-        mr: `🙏 नमस्कार ${customerName},\n\n🏪 *कृषिविश्व बायोटेक* - ऑर्डर प्राप्त!\n\n📋 ऑर्डर आयडी: ${order.orderId}\n📅 दिनांक: ${orderDate}\n📦 स्थिती: *लंबित*\n\n🛍️ *उत्पादने:*\n${productsList}\n\n💰 एकूण: ${totalAmount}\n📍 पत्ता: ${addressLine}\n\nलवकरच असाइन केले जाईल. धन्यवाद! 🙏`
+        en: `🙏 Hello ${customerName},\n\n` +
+            `Thank you for placing your order with Krishivishwa Biotech 🌱\n\n` +
+            `📋 *Order Details*\n` +
+            `Order ID: ${order.orderId}\n` +
+            `📅 Order Date: ${orderDate}\n` +
+            `📦 Status: Order Received\n\n` +
+            `🛍️ *Products Ordered*\n` +
+            `${productsList}\n\n` +
+            `💰 Total Amount: ₹${totalAmount}\n\n` +
+            `📍 *Delivery Address*\n` +
+            `${addressLine}\n\n` +
+            `Our team has successfully received your order and it is currently under review.\n` +
+            `Your order will be assigned to our delivery team shortly.\n\n` +
+            `Thank you for choosing Krishivishwa Biotech.\n` +
+            `We appreciate your trust in our agricultural products.\n\n` +
+            `🌱 Team Krishivishwa`,
+        mr: `🙏 नमस्कार ${customerName},\n\n` +
+            `Krishivishwa Biotech 🌱 कडून तुमच्या ऑर्डरसाठी धन्यवाद.\n\n` +
+            `📋 *ऑर्डर तपशील*\n` +
+            `Order ID: ${order.orderId}\n` +
+            `📅 Order Date: ${orderDate}\n` +
+            `📦 Status: Order Received\n\n` +
+            `🛍️ *मागवलेली उत्पादने*\n` +
+            `${productsList}\n\n` +
+            `💰 एकूण रक्कम: ₹${totalAmount}\n\n` +
+            `📍 *डिलिव्हरी पत्ता*\n` +
+            `${addressLine}\n\n` +
+            `तुमची ऑर्डर यशस्वीपणे प्राप्त झाली आहे आणि सध्या तपासणीमध्ये आहे.\n` +
+            `लवकरच तुमची ऑर्डर डिलिव्हरी टीमकडे सुपूर्द केली जाईल.\n\n` +
+            `Krishivishwa Biotech निवडल्याबद्दल धन्यवाद.\n` +
+            `आमच्या कृषी उत्पादनांवर टाकलेल्या विश्वासाबद्दल आम्ही आभारी आहोत.\n\n` +
+            `🌱 Team Krishivishwa`
       },
+
+      // 2️⃣ ORDER ASSIGNED (assigned)
       assigned: {
-        en: `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n📋 Order ID: ${order.orderId}\n📦 Status: *Assigned*\n\n👤 Assigned to: *${order.assignedTo || 'Our team'}*\n\nYour order is on the way. Thank you! 🙏`,
-        mr: `🙏 नमस्कार ${customerName},\n\n🏪 *कृषिविश्व बायोटेक*\n\n📋 ऑर्डर आयडी: ${order.orderId}\n📦 स्थिती: *असाइन केले*\n\n👤 असाइन केले: *${order.assignedTo || 'आमची टीम'}*\n\nऑर्डर मार्गावर आहे. धन्यवाद! 🙏`
+        en: `🙏 Hello ${customerName},\n\n` +
+            `Your order from Krishivishwa Biotech 🌱 has been successfully assigned.\n\n` +
+            `📋 *Order Information*\n` +
+            `Order ID: ${order.orderId}\n` +
+            `📦 Status: Assigned\n\n` +
+            `👨‍🌾 Assigned To: ${order.assignedTo || 'Our delivery team'}\n\n` +
+            `🚚 Our team is now preparing your order for dispatch.\n` +
+            `It will be delivered to your address soon.\n\n` +
+            `Thank you for choosing Krishivishwa Biotech for your farming needs.\n\n` +
+            `🌱 Team Krishivishwa`,
+        mr: `🙏 नमस्कार ${customerName},\n\n` +
+            `Krishivishwa Biotech 🌱 कडील तुमची ऑर्डर यशस्वीपणे असाइन करण्यात आली आहे.\n\n` +
+            `📋 *ऑर्डर माहिती*\n` +
+            `Order ID: ${order.orderId}\n` +
+            `📦 Status: Assigned\n\n` +
+            `👨‍🌾 Assigned To: ${order.assignedTo || 'आमची डिलिव्हरी टीम'}\n\n` +
+            `🚚 तुमची ऑर्डर आता डिलिव्हरीसाठी तयार केली जात आहे.\n` +
+            `लवकरच ती तुमच्या पत्त्यावर पोहोचवली जाईल.\n\n` +
+            `तुमच्या शेतीसाठी Krishivishwa Biotech निवडल्याबद्दल धन्यवाद.\n\n` +
+            `🌱 Team Krishivishwa`
       },
+
+      // 3️⃣ ORDER DELIVERED (delivered)
       delivered: {
-        en: `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n📦 Your order *${order.orderId}* has been *Delivered*!\n\nThank you for choosing us. 🙏`,
-        mr: `🙏 नमस्कार ${customerName},\n\n🏪 *कृषिविश्व बायोटेक*\n\n📦 तुमचा ऑर्डर *${order.orderId}* *डिलिव्हर* झाला!\n\nआम्हाला निवडल्याबद्दल धन्यवाद. 🙏`
+        en: `🙏 Hello ${customerName},\n\n` +
+            `📦 Your order ${order.orderId} from Krishivishwa Biotech 🌱 has been successfully delivered.\n\n` +
+            `We hope our products help you achieve better farming results.\n\n` +
+            `If you have any questions or need assistance, feel free to contact us anytime.\n\n` +
+            `Thank you for trusting Krishivishwa Biotech.\n` +
+            `We look forward to serving you again.\n\n` +
+            `🌱 Team Krishivishwa`,
+        mr: `🙏 नमस्कार ${customerName},\n\n` +
+            `📦 Krishivishwa Biotech 🌱 कडील तुमची ऑर्डर ${order.orderId} यशस्वीपणे डिलिव्हर करण्यात आली आहे.\n\n` +
+            `आमची उत्पादने तुमच्या शेतीत अधिक चांगले परिणाम मिळवून देण्यासाठी उपयुक्त ठरतील अशी आशा आहे.\n\n` +
+            `तुम्हाला काही शंका असल्यास किंवा मदतीची आवश्यकता असल्यास कृपया आमच्याशी संपर्क साधा.\n\n` +
+            `Krishivishwa Biotech वर विश्वास दाखवल्याबद्दल धन्यवाद.\n` +
+            `पुन्हा सेवा देण्यास आम्हाला आनंद होईल.\n\n` +
+            `🌱 Team Krishivishwa`
       },
+
+      // 4️⃣ ORDER REJECTED (rejected)
       rejected: {
-        en: order.paymentMethod === 'online'
-          ? `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n❌ Order *${order.orderId}* has been cancelled.\n\n${order.refundTransactionId ? `💰 Refund Transaction ID: ${order.refundTransactionId}\n\nThe amount has been refunded.` : '💰 Your money will be refunded in 2-3 business days.'}\n\nWe apologize for any inconvenience. 🙏`
-          : `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n❌ Order *${order.orderId}* has been cancelled.\n\nWe apologize for any inconvenience. 🙏`,
-        mr: order.paymentMethod === 'online'
-          ? `🙏 नमस्कार ${customerName},\n\n🏪 *कृषिविश्व बायोटेक*\n\n❌ ऑर्डर *${order.orderId}* रद्द झाला.\n\n${order.refundTransactionId ? `💰 रिफंड ट्रान्झॅक्शन ID: ${order.refundTransactionId}\n\nरक्कम परत केली गेली.` : '💰 तुमची रक्कम 2-3 कार्यदिवसांत परत केली जाईल.'}\n\nअडचणीसाठी क्षमा करा. 🙏`
-          : `🙏 नमस्कार ${customerName},\n\n🏪 *कृषिविश्व बायोटेक*\n\n❌ ऑर्डर *${order.orderId}* रद्द झाला.\n\nअडचणीसाठी क्षमा करा. 🙏`
+        en: (() => {
+          const base =
+            `🙏 Hello ${customerName},\n\n` +
+            `We regret to inform you that your order ${order.orderId} could not be processed.\n\n` +
+            `📦 Status: Order Rejected\n\n`;
+
+          const refundSection =
+            order.paymentMethod === 'online'
+              ? (order.refundTransactionId
+                  ? `💰 Your refund has been initiated.\nRefund Transaction ID: ${order.refundTransactionId}\n\n`
+                  : `💰 Your refund will be processed within 2–3 business days.\n\n`)
+              : '';
+
+          const closing =
+            `We sincerely apologize for the inconvenience caused.\n\n` +
+            `For further assistance, please contact our support team.\n\n` +
+            `🌱 Krishivishwa Biotech`;
+
+          return base + refundSection + closing;
+        })(),
+        mr: (() => {
+          const base =
+            `🙏 नमस्कार ${customerName},\n\n` +
+            `दुर्दैवाने कळवावे लागते की तुमची ऑर्डर ${order.orderId} प्रक्रिया करता आली नाही.\n\n` +
+            `📦 Status: Order Rejected\n\n`;
+
+          const refundSection =
+            order.paymentMethod === 'online'
+              ? (order.refundTransactionId
+                  ? `💰 तुमच्या रकमेचा रिफंड सुरू करण्यात आला आहे.\nRefund Transaction ID: ${order.refundTransactionId}\n\n`
+                  : `💰 तुमचा रिफंड 2–3 कार्यदिवसांच्या आत प्रक्रिया केला जाईल.\n\n`)
+              : '';
+
+          const closing =
+            `झालेल्या गैरसोयीबद्दल आम्ही मनापासून दिलगीर आहोत.\n\n` +
+            `कृपया अधिक माहितीसाठी किंवा मदतीसाठी आमच्या सपोर्ट टीमशी संपर्क साधा.\n\n` +
+            `🌱 Krishivishwa Biotech`;
+
+          return base + refundSection + closing;
+        })()
       },
+
+      // 5️⃣ ORDER CANCELLED (cancelled)
       cancelled: {
-        en: order.cancelledByUser
-          ? (order.paymentMethod === 'online'
-            ? `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n❌ Your order *${order.orderId}* has been cancelled.\n\n${order.refundTransactionId ? `💰 Refund ID: ${order.refundTransactionId}` : '💰 Refund will be processed in 2-3 days.'}\n\n🙏`
-            : `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n❌ Your order *${order.orderId}* has been cancelled.\n\n🙏`)
-          : `🙏 Hello ${customerName},\n\n🏪 *Krishivishwa Biotech*\n\n❌ Order *${order.orderId}* has been cancelled.\n\n🙏`,
-        mr: `🙏 नमस्कार ${customerName},\n\n🏪 *कृषिविश्व बायोटेक*\n\n❌ ऑर्डर *${order.orderId}* रद्द झाला.\n\n🙏`
+        en: (() => {
+          if (order.cancelledByUser) {
+            const refundText =
+              order.paymentMethod === 'online'
+                ? `\n\n💰 Your refund will be processed within 2–3 business days.`
+                : '';
+
+            return (
+              `🙏 Hello ${customerName},\n\n` +
+              `Your order ${order.orderId} has been successfully cancelled as per your request.\n` +
+              refundText +
+              `\n\nThank you for choosing Krishivishwa Biotech.\n` +
+              `We hope to serve you again in the future.\n\n` +
+              `🌱 Team Krishivishwa`
+            );
+          }
+
+          const refundText =
+            order.paymentMethod === 'online'
+              ? `\n\n💰 Your refund will be processed within 2–3 business days.`
+              : '';
+
+          return (
+            `🙏 Hello ${customerName},\n\n` +
+            `We regret to inform you that your order ${order.orderId} has been cancelled.\n\n` +
+            `📦 Status: Order Cancelled` +
+            refundText +
+            `\n\nWe sincerely apologize for the inconvenience caused.\n\n` +
+            `Thank you for your understanding.\n\n` +
+            `🌱 Krishivishwa Biotech`
+          );
+        })(),
+        mr: (() => {
+          if (order.cancelledByUser) {
+            const refundText =
+              order.paymentMethod === 'online'
+                ? `\n\n💰 तुमचा रिफंड 2–3 कार्यदिवसांच्या आत प्रक्रिया केला जाईल.`
+                : '';
+
+            return (
+              `🙏 नमस्कार ${customerName},\n\n` +
+              `तुमच्या विनंतीनुसार तुमची ऑर्डर ${order.orderId} यशस्वीपणे रद्द करण्यात आली आहे.\n` +
+              refundText +
+              `\n\nKrishivishwa Biotech निवडल्याबद्दल धन्यवाद.\n` +
+              `भविष्यात पुन्हा सेवा देण्यास आम्हाला आनंद होईल.\n\n` +
+              `🌱 Team Krishivishwa`
+            );
+          }
+
+          const refundText =
+            order.paymentMethod === 'online'
+              ? `\n\n💰 तुमचा रिफंड 2–3 कार्यदिवसांच्या आत प्रक्रिया केला जाईल.`
+              : '';
+
+          return (
+            `🙏 नमस्कार ${customerName},\n\n` +
+            `दुर्दैवाने कळवावे लागते की तुमची ऑर्डर ${order.orderId} रद्द करण्यात आली आहे.\n\n` +
+            `📦 Status: Order Cancelled` +
+            refundText +
+            `\n\nझालेल्या गैरसोयीबद्दल आम्ही दिलगीर आहोत.\n\n` +
+            `तुमच्या समजुतीबद्दल धन्यवाद.\n\n` +
+            `🌱 Krishivishwa Biotech`
+          );
+        })()
       }
     };
 
@@ -503,7 +682,27 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchAllOrdersRef = useRef(fetchAllOrders);
+  const fetchTableOrdersRef = useRef(fetchTableOrders);
+  fetchAllOrdersRef.current = fetchAllOrders;
+  fetchTableOrdersRef.current = fetchTableOrders;
+
   // === EFFECTS ===
+  useEffect(() => {
+    const pollMs = 8000;
+    const tick = () => {
+      if (document.visibilityState !== "visible") return;
+      fetchAllOrdersRef.current?.();
+      fetchTableOrdersRef.current?.();
+    };
+    const id = setInterval(tick, pollMs);
+    window.addEventListener("focus", tick);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("focus", tick);
+    };
+  }, []);
+
   useEffect(() => {
     fetchAllOrders();
   }, [overallYear]);
@@ -1253,7 +1452,10 @@ export default function AdminDashboard() {
               <button
                 type="button"
                 className="orders-refresh-btn"
-                onClick={fetchTableOrders}
+                onClick={() => {
+                  fetchAllOrders();
+                  fetchTableOrders();
+                }}
                 disabled={tableLoading}
                 title="Refresh orders"
               >

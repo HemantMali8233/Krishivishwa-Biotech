@@ -2,6 +2,98 @@ const Order = require('../models/Order');
 const Product = require('../models/Product'); // ADD THIS IMPORT
 const path = require('path');
 const fs = require('fs');
+const mongoose = require('mongoose');
+
+function variantQuantitySortKey(v) {
+  const n = Number(v.quantityValue) || 0;
+  const u = String(v.quantityUnit || 'ml');
+  if (u === 'L') return n * 1000;
+  if (u === 'ml') return n;
+  if (u === 'kg') return n * 1000000;
+  if (u === 'g') return n * 1000;
+  return n;
+}
+
+/** Same idea as storefront: compares "100 ml" style labels case-insensitive */
+function canonicalVariantLabel(v) {
+  if (!v || v.quantityValue === '' || v.quantityValue == null) return '';
+  const n = Number(v.quantityValue);
+  const qty = Number.isFinite(n) ? n : v.quantityValue;
+  const unit = String(v.quantityUnit || '').trim().toLowerCase();
+  return `${qty} ${unit}`.replace(/\s+/g, ' ').trim();
+}
+
+function normalizeIncomingVariantLabel(raw) {
+  if (raw == null || String(raw).trim() === '') return '';
+  return String(raw).toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Mongo variant array order may differ from storefront sorted order.
+ * variantIndex always refers to SORTED-largest-first ordering.
+ */
+function getVariantIndex(product, item) {
+  const mongo = product.variants;
+  if (!mongo || !mongo.length) return null;
+
+  const incomingLabel = normalizeIncomingVariantLabel(item.variantLabel);
+  if (incomingLabel) {
+    const byLabel = mongo.findIndex((v) => canonicalVariantLabel(v) === incomingLabel);
+    if (byLabel >= 0) return byLabel;
+  }
+
+  const sorted = [...mongo].sort((a, b) => variantQuantitySortKey(b) - variantQuantitySortKey(a));
+  const vi = item.variantIndex;
+  if (typeof vi === 'number' && Number.isFinite(vi) && vi >= 0 && vi < sorted.length) {
+    const target = sorted[vi];
+    const mongoIdx = mongo.findIndex((v) => canonicalVariantLabel(v) === canonicalVariantLabel(target));
+    if (mongoIdx >= 0) return mongoIdx;
+  }
+
+  if (mongo.length === 1) return 0;
+
+  return null;
+}
+
+function lineItemProductId(item) {
+  return item.productId || item._id || item.id;
+}
+
+function coerceProductObjectId(raw) {
+  if (!raw) return undefined;
+  if (raw instanceof mongoose.Types.ObjectId) return raw;
+  const s = String(raw);
+  if (!mongoose.Types.ObjectId.isValid(s)) return undefined;
+  return new mongoose.Types.ObjectId(s);
+}
+
+function variantLineStock(product, item) {
+  const idx = getVariantIndex(product, item);
+  if (product.variants?.length) {
+    if (idx !== null) return Number(product.variants[idx]?.stock) || 0;
+    return 0;
+  }
+  return Number(product.stock) || 0;
+}
+
+async function applyProductStockDelta(productId, item, deltaSign) {
+  const product = await Product.findById(productId);
+  if (!product) return;
+  const qty = (Number(item.quantity) || 0) * deltaSign;
+  if (!qty) return;
+  const vIdx = getVariantIndex(product, item);
+  if (vIdx === null) {
+    if (product.variants?.length >= 2) {
+      throw new Error(`Could not resolve which pack size this line refers to (${item.name || 'item'})`);
+    }
+    await Product.updateOne({ _id: productId }, { $inc: { stock: qty } });
+    return;
+  }
+  await Product.updateOne(
+    { _id: productId },
+    { $inc: { stock: qty, [`variants.${vIdx}.stock`]: qty } }
+  );
+}
 
 // GET /api/orders - with filtering, pagination, search
 exports.getOrders = async (req, res) => {
@@ -229,12 +321,26 @@ exports.createOrder = async (req, res) => {
       });
     }
 
+    if (Array.isArray(orderData.items)) {
+      orderData.items = orderData.items.map((it) => {
+        const productId = coerceProductObjectId(lineItemProductId(it));
+        return productId ? { ...it, productId } : { ...it };
+      });
+    }
+
     // **STOCK VALIDATION AND MANAGEMENT**
     const stockUpdates = [];
     
     // Validate stock availability for all items
     for (const item of orderData.items) {
-      const product = await Product.findById(item._id || item.id);
+      const productId = lineItemProductId(item);
+      if (!productId) {
+        return res.status(400).json({
+          success: false,
+          message: `Order line "${item.name || 'Product'}" is missing product id`,
+        });
+      }
+      const product = await Product.findById(productId);
       
       if (!product) {
         return res.status(400).json({
@@ -243,28 +349,28 @@ exports.createOrder = async (req, res) => {
         });
       }
 
-      // Check if sufficient stock is available
-      if (product.stock < item.quantity) {
+      const available = variantLineStock(product, item);
+      if (product.variants?.length >= 2 && getVariantIndex(product, item) === null) {
         return res.status(400).json({
           success: false,
-          message: `Insufficient stock for "${product.name}". Available: ${product.stock}, Requested: ${item.quantity}`
+          message: `Could not match pack size for "${product.name}". Please refresh and try again.`,
+        });
+      }
+      if (available < item.quantity) {
+        return res.status(400).json({
+          success: false,
+          message: `Insufficient stock for "${product.name}"${item.variantLabel ? ` (${item.variantLabel})` : ''}. Available: ${available}, Requested: ${item.quantity}`
         });
       }
 
-      // Prepare stock update
       stockUpdates.push({
         productId: product._id,
-        quantityToReduce: item.quantity
+        item,
       });
     }
 
-    // **UPDATE PRODUCT STOCK FIRST**
     for (const update of stockUpdates) {
-      await Product.findByIdAndUpdate(
-        update.productId,
-        { $inc: { stock: -update.quantityToReduce } },
-        { new: true }
-      );
+      await applyProductStockDelta(update.productId, update.item, -1);
     }
 
     // Create and save order after successful stock updates
@@ -360,11 +466,10 @@ exports.deleteOrder = async (req, res) => {
 
     // **RESTORE STOCK WHEN DELETING ORDER**
     for (const item of order.items) {
-      await Product.findByIdAndUpdate(
-        item._id || item.id,
-        { $inc: { stock: item.quantity } },
-        { new: true }
-      );
+      const pid = lineItemProductId(item);
+      if (pid) {
+        await applyProductStockDelta(pid, item, 1);
+      }
     }
 
     // Delete the order
@@ -494,11 +599,10 @@ exports.userCancelOrder = async (req, res) => {
       });
     }
 
-    // Restore stock
     for (const item of order.items) {
-      const productId = item._id || item.id;
-      if (productId) {
-        await Product.findByIdAndUpdate(productId, { $inc: { stock: item.quantity } }, { new: true });
+      const pid = lineItemProductId(item);
+      if (pid) {
+        await applyProductStockDelta(pid, item, 1);
       }
     }
 
@@ -560,13 +664,11 @@ exports.cancelOrder = async (req, res) => {
       });
     }
 
-    // **RESTORE STOCK WHEN CANCELLING ORDER**
     for (const item of order.items) {
-      await Product.findByIdAndUpdate(
-        item._id || item.id,
-        { $inc: { stock: item.quantity } },
-        { new: true }
-      );
+      const pid = lineItemProductId(item);
+      if (pid) {
+        await applyProductStockDelta(pid, item, 1);
+      }
     }
 
     // Update order status

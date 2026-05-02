@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment, useMemo } from "react";
 import axios from "axios";
 import {
   AiOutlineSearch,
@@ -12,6 +12,8 @@ import {
   AiOutlineStar,
   AiOutlineFire,
   AiOutlineThunderbolt,
+  AiOutlineDown,
+  AiOutlineUp,
 } from "react-icons/ai";
 import { FiBox, FiSettings, FiRefreshCw, FiPackage } from "react-icons/fi";
 import { BsGrid3X3Gap } from "react-icons/bs";
@@ -27,20 +29,94 @@ const PRODUCT_SECTIONS = [
 const backendBaseURL = (process.env.REACT_APP_API_URL || "http://localhost:5000") + "/api";
 const backendRootURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
+const QUANTITY_UNITS = ["ml", "L", "kg", "g", "Pack"];
+
+const defaultVariantRow = () => ({
+  quantityValue: "",
+  quantityUnit: "ml",
+  price: "",
+  originalPrice: "",
+  stock: "",
+  image: null,
+});
+
 const initialProductState = {
   name: "",
   category: "",
-  price: "",
-  stock: "",
   description: "",
   use: "",
   benefits: "",
   applicationMethod: "",
-  image: null,
+  variants: [defaultVariantRow()],
   sections: [],
   featured: false,
-  originalPrice: "",
   rating: 0,
+};
+
+const formatVariantLabel = (v) => {
+  if (v == null || v.quantityValue === "" || v.quantityValue == null) return "";
+  return `${v.quantityValue} ${v.quantityUnit || ""}`.trim();
+};
+
+const variantQuantitySortKey = (v) => {
+  const n = Number(v.quantityValue) || 0;
+  const u = String(v.quantityUnit || "ml");
+  if (u === "L") return n * 1000;
+  if (u === "ml") return n;
+  if (u === "kg") return n * 1000000;
+  if (u === "g") return n * 1000;
+  return n;
+};
+
+const sortVariantsByQuantityDesc = (list) => {
+  if (!list?.length) return [];
+  return [...list].sort((a, b) => variantQuantitySortKey(b) - variantQuantitySortKey(a));
+};
+
+/** Inline message when MRP is filled but lower than selling price (null if OK). */
+const variantPricingError = (row) => {
+  if (!row) return null;
+  const rawSale = row.price;
+  if (rawSale === "" || rawSale == null || Number.isNaN(Number(rawSale))) return null;
+  const sale = Number(rawSale);
+  if (!Number.isFinite(sale) || sale < 0) return null;
+  const rawMrp = row.originalPrice;
+  if (rawMrp === "" || rawMrp == null || String(rawMrp).trim() === "") return null;
+  if (Number.isNaN(Number(rawMrp))) return null;
+  const mrp = Number(rawMrp);
+  if (!Number.isFinite(mrp)) return null;
+  if (mrp >= 0 && mrp < sale) {
+    return `MRP must be at least ₹${sale.toLocaleString("en-IN")} (cannot be lower than selling price).`;
+  }
+  return null;
+};
+
+const variantsForTableRow = (product) => {
+  if (product?.variants?.length) return sortVariantsByQuantityDesc(product.variants);
+  return [
+    {
+      quantityValue: 1,
+      quantityUnit: "Pack",
+      price: product.price,
+      stock: product.stock,
+      image: product.image,
+      originalPrice: product.originalPrice,
+    },
+  ];
+};
+
+const tableSizeCell = (p) => formatVariantLabel(variantsForTableRow(p)[0]) || "—";
+
+const tablePrimaryPriceCell = (p) => {
+  const v0 = variantsForTableRow(p)[0];
+  return `₹${Number(v0?.price != null ? v0.price : p?.price ?? 0).toLocaleString()}`;
+};
+
+/** Stock shown on main row: first (largest) size only — not sum of all variants (`product.stock` is total). */
+const tablePrimaryStockCell = (p) => {
+  const v0 = variantsForTableRow(p)[0];
+  if (!v0) return Number(p?.stock ?? 0);
+  return Number(v0.stock != null ? v0.stock : p?.stock ?? 0);
 };
 
 const initialCategoryState = {
@@ -73,6 +149,9 @@ const EnhancedAdminPanel = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
+  const [expandedProductId, setExpandedProductId] = useState(null);
+  const [viewVariantIndex, setViewVariantIndex] = useState(0);
+  const [viewSizesOpen, setViewSizesOpen] = useState(false);
 
   const productsPerPage = 8;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
@@ -127,52 +206,118 @@ const EnhancedAdminPanel = () => {
   const openProductModal = (product = null) => {
     setIsEditMode(!!product);
     setEditingId(product?._id || product?.id || null);
-    setFormProduct(
-      product
-        ? {
-          name: product.name || "",
-          category: product.category || "",
-          price: product.price || "",
-          stock: product.stock || "",
-          description: product.description || "",
-          use: product.use || "",
-          benefits: product.benefits || "",
-          applicationMethod: product.applicationMethod || "",
-          image: product.image || null,
-          sections: product.sections || [],
-          featured: product.featured || false,
-          originalPrice: product.originalPrice || "",
-          rating: product.rating || 0,
-        }
-        : initialProductState
-    );
+    if (product) {
+      let variants =
+        product.variants?.length > 0
+          ? product.variants.map((v) => ({
+              quantityValue: v.quantityValue ?? "",
+              quantityUnit: v.quantityUnit || "ml",
+              price: v.price ?? "",
+              originalPrice: v.originalPrice ?? "",
+              stock: v.stock ?? "",
+              image: v.image || null,
+            }))
+          : [
+              {
+                quantityValue: 1,
+                quantityUnit: "Pack",
+                price: product.price ?? "",
+                originalPrice: product.originalPrice ?? "",
+                stock: product.stock ?? "",
+                image: product.image || null,
+              },
+            ];
+      variants = sortVariantsByQuantityDesc(variants);
+      setFormProduct({
+        name: product.name || "",
+        category: product.category || "",
+        description: product.description || "",
+        use: product.use || "",
+        benefits: product.benefits || "",
+        applicationMethod: product.applicationMethod || "",
+        variants,
+        sections: product.sections || [],
+        featured: product.featured || false,
+        rating: product.rating || 0,
+      });
+    } else {
+      setFormProduct({ ...initialProductState, variants: [defaultVariantRow()] });
+    }
     setIsProductModalOpen(true);
   };
 
   // Product submit handler
   const handleProductSubmit = async () => {
-    if (!formProduct.name || !formProduct.category || !formProduct.price || !formProduct.stock) {
+    if (!formProduct.name || !formProduct.category) {
       showNotification("Please fill in all required fields", "error");
       return;
     }
+    const rows = sortVariantsByQuantityDesc((formProduct.variants || []).map((r) => ({ ...r })));
+    if (!rows.length) {
+      showNotification("Add at least one size / quantity row", "error");
+      return;
+    }
+    if ((formProduct.variants || []).some((v) => variantPricingError(v))) {
+      return;
+    }
+    for (let i = 0; i < rows.length; i++) {
+      const v = rows[i];
+      if (v.quantityValue === "" || v.quantityValue == null || Number(v.quantityValue) <= 0) {
+        showNotification(`Row ${i + 1}: enter a valid quantity amount`, "error");
+        return;
+      }
+      if (!v.quantityUnit) {
+        showNotification(`Row ${i + 1}: select a unit`, "error");
+        return;
+      }
+      if (v.price === "" || Number(v.price) < 0) {
+        showNotification(`Row ${i + 1}: enter a valid price`, "error");
+        return;
+      }
+      if (v.stock === "" || Number(v.stock) < 0) {
+        showNotification(`Row ${i + 1}: enter stock`, "error");
+        return;
+      }
+      if (!(v.image instanceof File) && !v.image) {
+        showNotification(`Row ${i + 1}: upload an image for this size`, "error");
+        return;
+      }
+    }
+
     setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append("name", formProduct.name);
       formData.append("category", formProduct.category);
-      formData.append("price", formProduct.price);
-      formData.append("stock", formProduct.stock);
       formData.append("description", formProduct.description);
       formData.append("use", formProduct.use);
       formData.append("benefits", formProduct.benefits);
       formData.append("applicationMethod", formProduct.applicationMethod);
       formData.append("sections", formProduct.sections.join(","));
       formData.append("featured", formProduct.featured);
-      formData.append("originalPrice", formProduct.originalPrice);
       formData.append("rating", formProduct.rating);
-      if (formProduct.image instanceof File) {
-        formData.append("image", formProduct.image);
-      }
+
+      const variantPayload = rows.map((v) => {
+        const row = {
+          quantityValue: Number(v.quantityValue),
+          quantityUnit: v.quantityUnit,
+          price: Number(v.price),
+          stock: Number(v.stock),
+          image: v.image instanceof File ? "" : v.image || "",
+        };
+        if (v.originalPrice !== "" && v.originalPrice != null && !Number.isNaN(Number(v.originalPrice))) {
+          row.originalPrice = Number(v.originalPrice);
+        }
+        return row;
+      });
+      formData.append("variants", JSON.stringify(variantPayload));
+
+      rows.forEach((v, i) => {
+        if (v.image instanceof File) {
+          formData.append(`variantImage_${i}`, v.image);
+        }
+      });
+
       if (isEditMode && editingId) {
         await axios.put(`${backendBaseURL}/products/${editingId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -185,10 +330,14 @@ const EnhancedAdminPanel = () => {
         showNotification("Product added successfully!");
       }
       setIsProductModalOpen(false);
-      setFormProduct(initialProductState);
+      setFormProduct({ ...initialProductState, variants: [defaultVariantRow()] });
       fetchProducts();
-    } catch {
-      showNotification("Error saving product", "error");
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Error saving product";
+      showNotification(typeof msg === "string" ? msg : "Error saving product", "error");
     } finally {
       setIsLoading(false);
     }
@@ -257,12 +406,15 @@ const EnhancedAdminPanel = () => {
     }
   };
 
-  // View modal
-  const openViewModal = (item, type) => {
+  // View modal — optional focusedVariant shows only that size’s details
+  const openViewModal = (item, type, opts = {}) => {
     setViewItem({
       ...item,
       type,
+      ...(type === "product" ? { focusedVariant: opts.focusedVariant ?? null } : {}),
     });
+    setViewVariantIndex(0);
+    setViewSizesOpen(false);
     setIsViewModalOpen(true);
   };
 
@@ -288,6 +440,32 @@ const EnhancedAdminPanel = () => {
       : [...formProduct.sections, sectionId];
     setFormProduct((prev) => ({ ...prev, sections: updatedSections }));
   };
+
+  const updateVariantRow = (index, patch) => {
+    setFormProduct((prev) => ({
+      ...prev,
+      variants: prev.variants.map((row, i) => (i === index ? { ...row, ...patch } : row)),
+    }));
+  };
+
+  const addVariantRow = () => {
+    setFormProduct((prev) => ({
+      ...prev,
+      variants: [...prev.variants, defaultVariantRow()],
+    }));
+  };
+
+  const removeVariantRow = (index) => {
+    setFormProduct((prev) => {
+      if (prev.variants.length <= 1) return prev;
+      return { ...prev, variants: prev.variants.filter((_, i) => i !== index) };
+    });
+  };
+
+  const hasVariantPricingErrors = useMemo(
+    () => (formProduct.variants || []).some((v) => variantPricingError(v)),
+    [formProduct.variants]
+  );
 
   return (
     <div className="enhanced-admin-container">
@@ -395,7 +573,13 @@ const EnhancedAdminPanel = () => {
                 <div className="admin-stat-icon">⚠️</div>
                 <div className="admin-stat-content">
                   <h3>Low Stock</h3>
-                  <p>{products.filter((p) => p.stock < 10).length}</p>
+                  <p>
+                    {
+                      products.filter((p) =>
+                        variantsForTableRow(p).some((v) => Number(v.stock) < 10)
+                      ).length
+                    }
+                  </p>
                   <span>Below 10 units</span>
                 </div>
               </div>
@@ -421,6 +605,7 @@ const EnhancedAdminPanel = () => {
                     <tr>
                       <th>Product</th>
                       <th>Category</th>
+                      <th>Size</th>
                       <th>Price</th>
                       <th>Stock</th>
                       <th>Sections</th>
@@ -431,7 +616,7 @@ const EnhancedAdminPanel = () => {
                   <tbody>
                     {products.length === 0 ? (
                       <tr>
-                        <td colSpan="7" className="admin-empty">
+                        <td colSpan="8" className="admin-empty">
                           <div className="admin-empty-content">
                             <img src="/empty-shelves.png" alt="No products" />
                             <h3>No products found</h3>
@@ -440,77 +625,185 @@ const EnhancedAdminPanel = () => {
                         </td>
                       </tr>
                     ) : (
-                      products.map((product) => (
-                        <tr key={product._id || product.id}>
-                          <td className="admin-product-cell">
-                            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                              {/* You can optionally add product image here */}
-                              <div>
-                                <h4>{product.name}</h4>
-                                <p>{product.description?.substring(0, 50)}...</p>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <span
-                              className="admin-category-badge"
-                              style={{
-                                background: categories.find((c) => c.name === product.category)?.color || "#10b981",
-                                color: "white",
-                              }}
-                            >
-                              {product.category}
-                            </span>
-                          </td>
-                          <td className="admin-price">₹{product.price?.toLocaleString()}</td>
-                          <td>
-                            <div className="admin-stock">
-                              <span className={product.stock < 10 ? "low" : "normal"}>{product.stock}</span>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="admin-sections">
-                              {product.sections?.map((sectionId) => {
-                                const section = PRODUCT_SECTIONS.find((s) => s.id === sectionId);
-                                if (!section) return null;
-                                return (
-                                  <span key={sectionId} className="admin-section-badge" style={{ backgroundColor: section.color }}>
-                                    {section.name}
+                      products.map((product) => {
+                        const pid = product._id || product.id;
+                        const isExpanded = expandedProductId === pid;
+                        const variants = variantsForTableRow(product);
+                        const hasMultipleSizes = variants.length > 1;
+                        const remainingVariants = hasMultipleSizes ? variants.slice(1) : [];
+                        const primaryRowStock = tablePrimaryStockCell(product);
+                        return (
+                          <Fragment key={pid}>
+                            <tr>
+                              <td className="admin-product-cell">
+                                <div className="admin-product-cell-inner">
+                                  {hasMultipleSizes ? (
+                                    <button
+                                      type="button"
+                                      className="admin-row-expand-btn"
+                                      onClick={() => {
+                                        setExpandedProductId(isExpanded ? null : pid);
+                                      }}
+                                      title={isExpanded ? "Hide other sizes" : "Show other sizes"}
+                                      aria-expanded={isExpanded}
+                                    >
+                                      {isExpanded ? <AiOutlineUp /> : <AiOutlineDown />}
+                                    </button>
+                                  ) : (
+                                    <span className="admin-row-expand-placeholder" aria-hidden />
+                                  )}
+                                  <div>
+                                    <h4>{product.name}</h4>
+                                    <p>{product.description?.substring(0, 50)}...</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <span
+                                  className="admin-category-badge"
+                                  style={{
+                                    background: categories.find((c) => c.name === product.category)?.color || "#10b981",
+                                    color: "white",
+                                  }}
+                                >
+                                  {product.category}
+                                </span>
+                              </td>
+                              <td className="admin-size-cell">{tableSizeCell(product)}</td>
+                              <td className="admin-price">{tablePrimaryPriceCell(product)}</td>
+                              <td>
+                                <div className="admin-stock">
+                                  <span
+                                    className={primaryRowStock < 10 ? "low" : "normal"}
+                                  >
+                                    {primaryRowStock}
                                   </span>
-                                );
-                              })}
-                            </div>
-                          </td>
-                          <td>
-                            <span className={`admin-status ${product.stock > 0 ? "in-stock" : "out-stock"}`}>
-                              {product.stock > 0 ? "In Stock" : "Out of Stock"}
-                            </span>
-                          </td>
-                          <td className="admin-actions-cell">
-                            <button
-                              className="admin-action-btn view"
-                              onClick={() => openViewModal(product, "product")}
-                              title="View"
-                            >
-                              <AiOutlineEye />
-                            </button>
-                            <button
-                              className="admin-action-btn edit"
-                              onClick={() => openProductModal(product)}
-                              title="Edit"
-                            >
-                              <AiOutlineEdit />
-                            </button>
-                            <button
-                              className="admin-action-btn delete"
-                              onClick={() => handleDeleteProduct(product._id || product.id)}
-                              title="Delete"
-                            >
-                              <AiOutlineDelete />
-                            </button>
-                          </td>
-                        </tr>
-                      ))
+                                </div>
+                              </td>
+                              <td>
+                                <div className="admin-sections">
+                                  {product.sections?.map((sectionId) => {
+                                    const section = PRODUCT_SECTIONS.find((s) => s.id === sectionId);
+                                    if (!section) return null;
+                                    return (
+                                      <span key={sectionId} className="admin-section-badge" style={{ backgroundColor: section.color }}>
+                                        {section.name}
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                              </td>
+                              <td>
+                                <span
+                                  className={`admin-status ${primaryRowStock > 0 ? "in-stock" : "out-stock"}`}
+                                >
+                                  {primaryRowStock > 0 ? "In Stock" : "Out of Stock"}
+                                </span>
+                              </td>
+                              <td className="admin-actions-cell">
+                                <div className="admin-actions-inner">
+                                  <button
+                                    className="admin-action-btn view"
+                                    onClick={() => openViewModal(product, "product")}
+                                    title="View"
+                                  >
+                                    <AiOutlineEye />
+                                  </button>
+                                  <button
+                                    className="admin-action-btn edit"
+                                    onClick={() => openProductModal(product)}
+                                    title="Edit"
+                                  >
+                                    <AiOutlineEdit />
+                                  </button>
+                                  <button
+                                    className="admin-action-btn delete"
+                                    onClick={() => handleDeleteProduct(pid)}
+                                    title="Delete"
+                                  >
+                                    <AiOutlineDelete />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                            {isExpanded &&
+                              remainingVariants.map((v, subIdx) => (
+                                <tr key={`${pid}-size-${subIdx}`} className="admin-table-variant-subrow">
+                                  <td className="admin-product-cell">
+                                    <div className="admin-product-cell-inner">
+                                      <span className="admin-row-expand-placeholder" aria-hidden />
+                                      <div>
+                                        <h4>{product.name}</h4>
+                                        <p>{product.description?.substring(0, 50)}...</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <span
+                                      className="admin-category-badge"
+                                      style={{
+                                        background: categories.find((c) => c.name === product.category)?.color || "#10b981",
+                                        color: "white",
+                                      }}
+                                    >
+                                      {product.category}
+                                    </span>
+                                  </td>
+                                  <td className="admin-size-cell">{formatVariantLabel(v)}</td>
+                                  <td className="admin-price">₹{Number(v.price).toLocaleString()}</td>
+                                  <td>
+                                    <div className="admin-stock">
+                                      <span className={Number(v.stock) < 10 ? "low" : "normal"}>{v.stock}</span>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="admin-sections">
+                                      {product.sections?.map((sectionId) => {
+                                        const section = PRODUCT_SECTIONS.find((s) => s.id === sectionId);
+                                        if (!section) return null;
+                                        return (
+                                          <span key={sectionId} className="admin-section-badge" style={{ backgroundColor: section.color }}>
+                                            {section.name}
+                                          </span>
+                                        );
+                                      })}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <span className={`admin-status ${Number(v.stock) > 0 ? "in-stock" : "out-stock"}`}>
+                                      {Number(v.stock) > 0 ? "In Stock" : "Out of Stock"}
+                                    </span>
+                                  </td>
+                                  <td className="admin-actions-cell">
+                                    <div className="admin-actions-inner">
+                                      <button
+                                        className="admin-action-btn view"
+                                        onClick={() => openViewModal(product, "product", { focusedVariant: v })}
+                                        title="View this size"
+                                      >
+                                        <AiOutlineEye />
+                                      </button>
+                                      <button
+                                        className="admin-action-btn edit"
+                                        onClick={() => openProductModal(product)}
+                                        title="Edit product"
+                                      >
+                                        <AiOutlineEdit />
+                                      </button>
+                                      <button
+                                        className="admin-action-btn delete"
+                                        onClick={() => handleDeleteProduct(pid)}
+                                        title="Delete product"
+                                      >
+                                        <AiOutlineDelete />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                          </Fragment>
+                        );
+                      })
                     )}
                   </tbody>
                 </table>
@@ -668,7 +961,7 @@ const EnhancedAdminPanel = () => {
                       </select>
                     </div>
                     <div className="admin-form-group">
-                      <label>Rating</label>
+                      <label>Rating (use arrows)</label>
                       <input
                         type="number"
                         min="0"
@@ -678,8 +971,13 @@ const EnhancedAdminPanel = () => {
                         onChange={(e) =>
                           setFormProduct((prev) => ({ ...prev, rating: parseFloat(e.target.value) || 0 }))
                         }
+                        onKeyDown={(e) => {
+                          if (["ArrowUp", "ArrowDown", "Tab", "Escape"].includes(e.key)) return;
+                          e.preventDefault();
+                        }}
+                        onPaste={(e) => e.preventDefault()}
                         placeholder="0.0"
-                        className="admin-form-input"
+                        className="admin-form-input admin-rating-arrows-only"
                       />
                     </div>
                   </div>
@@ -690,44 +988,132 @@ const EnhancedAdminPanel = () => {
                     <AiOutlineTags className="admin-form-section-icon" />
                     Pricing & Inventory
                   </h4>
-                  <div className="admin-form-row">
-                    <div className="admin-form-group">
-                      <label>Price (₹) *</label>
-                      <input
-                        type="number"
-                        min="1"
-                        step="5"
-                        value={formProduct.price}
-                        onChange={(e) => setFormProduct((prev) => ({ ...prev, price: e.target.value }))}
-                        placeholder="1"
-                        className="admin-form-input"
-                      />
+                  <p className="admin-variant-hint">
+                    Add each pack size: amount, unit (ml / L / kg…), sale price, optional MRP, stock, and image.
+                    Sizes are stored with the largest quantity first.
+                  </p>
+                  {(formProduct.variants || []).map((row, idx) => {
+                    const variantPricingErr = variantPricingError(row);
+                    return (
+                    <div
+                      key={idx}
+                      className={`admin-variant-block${variantPricingErr ? " admin-variant-block--has-error" : ""}`}
+                    >
+                      <div className="admin-variant-block-header">
+                        <span>Size {idx + 1}</span>
+                        {formProduct.variants.length > 1 && (
+                          <button type="button" className="admin-variant-remove" onClick={() => removeVariantRow(idx)}>
+                            Remove
+                          </button>
+                        )}
+                      </div>
+                      <div className="admin-form-row admin-variant-row">
+                        <div className="admin-form-group">
+                          <label>Qty amount *</label>
+                          <input
+                            type="number"
+                            min="0.01"
+                            step="any"
+                            value={row.quantityValue}
+                            onChange={(e) => updateVariantRow(idx, { quantityValue: e.target.value })}
+                            placeholder="e.g. 100"
+                            className="admin-form-input"
+                          />
+                        </div>
+                        <div className="admin-form-group">
+                          <label>Unit *</label>
+                          <select
+                            value={row.quantityUnit}
+                            onChange={(e) => updateVariantRow(idx, { quantityUnit: e.target.value })}
+                            className="admin-form-select"
+                          >
+                            {QUANTITY_UNITS.map((u) => (
+                              <option key={u} value={u}>
+                                {u}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="admin-form-group">
+                          <label>Price (₹) *</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={row.price}
+                            onChange={(e) => updateVariantRow(idx, { price: e.target.value })}
+                            className={`admin-form-input ${variantPricingErr ? "admin-form-input--error" : ""}`}
+                            aria-invalid={variantPricingErr ? true : undefined}
+                            aria-describedby={variantPricingErr ? `variant-pricing-err-${idx}` : undefined}
+                          />
+                        </div>
+                        <div className="admin-form-group">
+                          <label>Original price / MRP (₹)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={row.originalPrice}
+                            onChange={(e) => updateVariantRow(idx, { originalPrice: e.target.value })}
+                            placeholder="Optional"
+                            className={`admin-form-input ${variantPricingErr ? "admin-form-input--error" : ""}`}
+                            aria-invalid={variantPricingErr ? true : undefined}
+                            aria-describedby={variantPricingErr ? `variant-pricing-err-${idx}` : undefined}
+                          />
+                        </div>
+                        <div className="admin-form-group">
+                          <label>Stock *</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={row.stock}
+                            onChange={(e) => updateVariantRow(idx, { stock: e.target.value })}
+                            className="admin-form-input"
+                          />
+                        </div>
+                      </div>
+                      {variantPricingErr ? (
+                        <p className="admin-variant-field-error" id={`variant-pricing-err-${idx}`} role="alert">
+                          {variantPricingErr}
+                        </p>
+                      ) : null}
+                      <div className="admin-form-row">
+                        <div className="admin-form-group admin-form-group-full">
+                          <label>Image for this size *</label>
+                          <div className="admin-file-upload">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) =>
+                                updateVariantRow(idx, { image: e.target.files?.[0] || null })
+                              }
+                              className="admin-file-input"
+                              id={`variant-image-${idx}`}
+                            />
+                            <label htmlFor={`variant-image-${idx}`} className="admin-file-label">
+                              <AiOutlinePlus />
+                              Choose Image
+                            </label>
+                            {row.image && !(row.image instanceof File) && (
+                              <img
+                                src={`${backendRootURL}${row.image}`}
+                                alt=""
+                                style={{ maxHeight: 72, marginTop: 8, borderRadius: 4 }}
+                              />
+                            )}
+                            {row.image instanceof File && (
+                              <span className="admin-file-name">{row.image.name}</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="admin-form-group">
-                      <label>Original Price (₹)</label>
-                      <input
-                        type="number"
-                        min="1"
-                        step="5"
-                        value={formProduct.originalPrice}
-                        onChange={(e) => setFormProduct((prev) => ({ ...prev, originalPrice: e.target.value }))}
-                        placeholder="1"
-                        className="admin-form-input"
-                      />
-                    </div>
-                    <div className="admin-form-group">
-                      <label>Stock *</label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="1"
-                        value={formProduct.stock}
-                        onChange={(e) => setFormProduct((prev) => ({ ...prev, stock: e.target.value }))}
-                        placeholder="0"
-                        className="admin-form-input"
-                      />
-                    </div>
-                  </div>
+                  );
+                  })}
+                  <button type="button" className="admin-add-variant-btn" onClick={addVariantRow}>
+                    <AiOutlinePlus /> Add sub quantity product
+                  </button>
                 </div>
 
                 <div className="admin-form-section">
@@ -816,46 +1202,21 @@ const EnhancedAdminPanel = () => {
                   </div>
                 </div>
 
-                <div className="admin-form-section">
-                  <h4 className="admin-form-section-title">
-                    <AiOutlineEye className="admin-form-section-icon" />
-                    Product Image
-                  </h4>
-                  <div className="admin-form-row">
-                    <div className="admin-form-group admin-form-group-full">
-                      <label>Upload Image</label>
-                      <div className="admin-file-upload">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => setFormProduct((prev) => ({ ...prev, image: e.target.files[0] }))}
-                          className="admin-file-input"
-                          id="product-image"
-                        />
-                        <label htmlFor="product-image" className="admin-file-label">
-                          <AiOutlinePlus />
-                          Choose Image
-                        </label>
-                        {formProduct.image && !(formProduct.image instanceof File) && (
-                          <img
-                            src={`${backendRootURL}${formProduct.image}`}
-                            alt="Current"
-                            style={{ maxHeight: 80, marginTop: 10, borderRadius: 4 }}
-                          />
-                        )}
-                        {formProduct.image instanceof File && (
-                          <span className="admin-file-name">{formProduct.image.name || "Image selected"}</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <div className="admin-form-actions">
                   <button type="button" onClick={() => setIsProductModalOpen(false)} className="admin-cancel-btn">
                     Cancel
                   </button>
-                  <button onClick={handleProductSubmit} className="admin-submit-btn" disabled={isLoading}>
+                  <button
+                    type="button"
+                    onClick={handleProductSubmit}
+                    className="admin-submit-btn"
+                    disabled={isLoading || hasVariantPricingErrors}
+                    title={
+                      hasVariantPricingErrors
+                        ? "Fix MRP vs selling price on each highlighted size row"
+                        : undefined
+                    }
+                  >
                     {isLoading ? (
                       <>
                         <div className="admin-spinner-small"></div>
@@ -939,81 +1300,157 @@ const EnhancedAdminPanel = () => {
         <div className="admin-modal-overlay" onClick={() => setIsViewModalOpen(false)}>
           <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
             <div className="admin-modal-header">
-              <h3>View {viewItem.type === "product" ? "Product" : "Category"}</h3>
+              <h3>
+                {viewItem.type === "product"
+                  ? viewItem.focusedVariant
+                    ? `View ${viewItem.name} (${formatVariantLabel(viewItem.focusedVariant)})`
+                    : "View Product"
+                  : "View Category"}
+              </h3>
               <button className="admin-modal-close" onClick={() => setIsViewModalOpen(false)}>
                 ×
               </button>
             </div>
             <div className="admin-modal-body">
-              {viewItem.type === "product" ? (
-                <div className="admin-view-content">
-                  <div className="admin-view-image">
-                    <img
-                      src={viewItem.image ? `${backendRootURL}${viewItem.image}` : "/placeholder.svg?height=200&width=200&query=product"}
-                      alt={viewItem.name}
-                      style={{
-                        width: "220px",
-                        height: "220px",
-                        objectFit: "contain",
-                        display: "block",
-                        margin: "0 auto",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </div>
-                  <div className="admin-view-details">
-                    <h4>{viewItem.name}</h4>
-                    <p>
-                      <strong>Category:</strong> {viewItem.category}
-                    </p>
-                    <p>
-                      <strong>Price:</strong> ₹{viewItem.price?.toLocaleString()}
-                    </p>
-                    {viewItem.originalPrice && (
+              {viewItem.type === "product" ? (() => {
+                const viewVariantsList = sortVariantsByQuantityDesc(
+                  viewItem.variants?.length > 0
+                    ? viewItem.variants
+                    : [
+                        {
+                          quantityValue: 1,
+                          quantityUnit: "Pack",
+                          price: viewItem.price,
+                          stock: viewItem.stock,
+                          image: viewItem.image,
+                          originalPrice: viewItem.originalPrice,
+                        },
+                      ]
+                );
+                const focused = viewItem.focusedVariant;
+                const idx = Math.min(
+                  Math.max(0, viewVariantIndex),
+                  Math.max(0, viewVariantsList.length - 1)
+                );
+                const vv = focused || viewVariantsList[idx];
+                const multi = !focused && viewVariantsList.length > 1;
+                return (
+                  <div className="admin-view-content">
+                    <div className="admin-view-image">
+                      <img
+                        src={
+                          vv?.image
+                            ? `${backendRootURL}${vv.image}`
+                            : "/placeholder.svg?height=200&width=200&query=product"
+                        }
+                        alt={viewItem.name}
+                        style={{
+                          width: "220px",
+                          height: "220px",
+                          objectFit: "contain",
+                          display: "block",
+                          margin: "0 auto",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    </div>
+                    <div className="admin-view-details">
+                      <h4>{viewItem.name}</h4>
                       <p>
-                        <strong>Original Price:</strong> ₹{viewItem.originalPrice?.toLocaleString()}
+                        <strong>Category:</strong> {viewItem.category}
                       </p>
-                    )}
-                    <p>
-                      <strong>Stock:</strong> {viewItem.stock}
-                    </p>
-                    <p>
-                      <strong>Rating:</strong> {viewItem.rating || 0}/5
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {viewItem.description || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Use:</strong> {viewItem.use || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Benefits:</strong> {viewItem.benefits || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Application Method:</strong> {viewItem.applicationMethod || "N/A"}
-                    </p>
-                    {viewItem.sections && viewItem.sections.length > 0 && (
-                      <div>
-                        <strong>Sections:</strong>
-                        <div className="admin-view-sections">
-                          {viewItem.sections.map((sectionId) => {
-                            const section = PRODUCT_SECTIONS.find((s) => s.id === sectionId);
-                            return section ? (
-                              <span
-                                key={sectionId}
-                                className="admin-section-badge"
-                                style={{ backgroundColor: section.color }}
+                      <p>
+                        <strong>Price ({formatVariantLabel(vv)}):</strong> ₹{Number(vv?.price).toLocaleString()}
+                      </p>
+                      {vv?.originalPrice != null && Number(vv.originalPrice) > 0 && (
+                        <p>
+                          <strong>MRP ({formatVariantLabel(vv)}):</strong> ₹{Number(vv.originalPrice).toLocaleString()}
+                        </p>
+                      )}
+                      <p>
+                        <strong>Stock ({formatVariantLabel(vv)}):</strong> {vv?.stock}
+                      </p>
+                      <p>
+                        <strong>Rating:</strong> {viewItem.rating || 0}/5
+                      </p>
+                      {multi && (
+                        <>
+                          <button
+                            type="button"
+                            className="admin-view-sizes-toggle"
+                            onClick={() => setViewSizesOpen((o) => !o)}
+                          >
+                            {viewSizesOpen ? <AiOutlineUp /> : <AiOutlineDown />}
+                            Other sizes &amp; pricing
+                          </button>
+                          {viewSizesOpen && (
+                            <div className="admin-view-sizes-panel">
+                              <label className="admin-expand-label">Select size</label>
+                              <select
+                                className="admin-form-select"
+                                value={idx}
+                                onChange={(e) => setViewVariantIndex(Number(e.target.value))}
                               >
-                                {section.name}
-                              </span>
-                            ) : null;
-                          })}
+                                {viewVariantsList.map((v, i) => (
+                                  <option key={i} value={i}>
+                                    {formatVariantLabel(v)} — ₹{Number(v.price).toLocaleString()}
+                                    {v.originalPrice != null && Number(v.originalPrice) > 0
+                                      ? ` · MRP ₹${Number(v.originalPrice).toLocaleString()}`
+                                      : ""}{" "}
+                                    · Stock {v.stock}
+                                  </option>
+                                ))}
+                              </select>
+                              <p className="admin-view-sizes-note">
+                                Image and price above update for the selected size.
+                              </p>
+                            </div>
+                          )}
+                        </>
+                      )}
+                      {!focused ? (
+                        <>
+                          <p>
+                            <strong>Description:</strong> {viewItem.description || "N/A"}
+                          </p>
+                          <p>
+                            <strong>Use:</strong> {viewItem.use || "N/A"}
+                          </p>
+                          <p>
+                            <strong>Benefits:</strong> {viewItem.benefits || "N/A"}
+                          </p>
+                          <p>
+                            <strong>Application Method:</strong> {viewItem.applicationMethod || "N/A"}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="admin-view-focused-note">
+                          Open the full product view from the main row to see description, use, benefits, and application.
+                        </p>
+                      )}
+                      {viewItem.sections && viewItem.sections.length > 0 && (
+                        <div>
+                          <strong>Sections:</strong>
+                          <div className="admin-view-sections">
+                            {viewItem.sections.map((sectionId) => {
+                              const section = PRODUCT_SECTIONS.find((s) => s.id === sectionId);
+                              return section ? (
+                                <span
+                                  key={sectionId}
+                                  className="admin-section-badge"
+                                  style={{ backgroundColor: section.color }}
+                                >
+                                  {section.name}
+                                </span>
+                              ) : null;
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
-              ) : (
+                );
+              })() : (
                 <div className="admin-view-content">
                   <div className="admin-view-category">
                     <div className="admin-category-icon-large">{viewItem.icon || "📁"}</div>

@@ -21,11 +21,15 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// API endpoints
+const variantImageFields = Array.from({ length: 25 }, (_, i) => ({
+  name: `variantImage_${i}`,
+  maxCount: 1,
+}));
+
 router.get("/", productController.getProducts);
 router.get("/:id", productController.getProductById);
-router.post("/", upload.single("image"), productController.createProduct);
-router.put("/:id", upload.single("image"), productController.updateProduct);
+router.post("/", upload.fields(variantImageFields), productController.createProduct);
+router.put("/:id", upload.fields(variantImageFields), productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
 
 module.exports = router;

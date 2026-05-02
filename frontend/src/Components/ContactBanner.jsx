@@ -84,7 +84,7 @@ const ContactBanner = () => {
             </motion.a>
 
             <motion.a
-              href="tel:9960492426"
+              href="tel:7066655562"
               className="ct-contact-button phone"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

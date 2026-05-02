@@ -2194,3 +2194,9 @@
     page-break-inside: avoid;
   }
 }
+
+.order-item-variant {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.9em;
+}

@@ -1035,3 +1035,11 @@
     text-align: center;
   }
 }
+
+.clean-cart-page .mobile-product-variant,
+.clean-cart-page .product-variant-line {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0.15rem 0 0;
+}

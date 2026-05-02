@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./TruckAnimation.css";
 
+/** Keep in sync with CheckoutFlow success wait (truck CSS animation length). */
+export const TRUCK_ANIMATION_MS = 10000;
+
 const TruckAnimation = ({ onClick, disabled, isProcessing }) => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     if (isProcessing) {
       setAnimate(true);
-      const timer = setTimeout(() => setAnimate(false), 10000);
+      const timer = setTimeout(() => setAnimate(false), TRUCK_ANIMATION_MS);
       return () => clearTimeout(timer);
     }
   }, [isProcessing]);

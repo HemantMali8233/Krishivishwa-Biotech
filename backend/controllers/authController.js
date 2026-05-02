@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret"; // store securely in .env!
-const JWT_EXPIRY = "7d"; // Token valid for 7 days
+const JWT_EXPIRY = process.env.JWT_EXPIRY || "30d";
 
 // Simple validators for identifier
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

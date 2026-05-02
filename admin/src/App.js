@@ -12,7 +12,8 @@ import AddProduct from "./Components/AddProduct";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Content from "./Pages/Content";
-import Updates from "./Pages/Updates"
+import Updates from "./Pages/Updates";
+import Profile from "./Pages/Profile";
 
 
 // Simple Protected Route wrapper
@@ -164,6 +165,17 @@ function App() {
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Dashboard onLogout={handleLogout} username={user?.username}>
                 <Settings />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Dashboard onLogout={handleLogout} username={user?.username}>
+                <Profile />
               </Dashboard>
             </ProtectedRoute>
           }

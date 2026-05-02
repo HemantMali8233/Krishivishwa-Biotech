@@ -8,7 +8,8 @@ import {
   FiImage,
   FiSettings,
   FiLogOut,
-  FiEdit   // Import edit icon
+  FiEdit,   // Import edit icon
+  FiUser
 } from 'react-icons/fi';
 import { FaBullhorn } from "react-icons/fa";
 import '../Components/Sidebae.css';
@@ -79,6 +80,13 @@ const Sidebar = ({ collapsed, onLogout }) => {
         <Link to="/contents" className={`nav-link ${location.pathname.includes('/contents') ? 'active' : ''}`}>
           <FiEdit className="nav-icon" />
           {!collapsed && <span className="ms-2">Contents</span>}
+        </Link>
+        {!collapsed && <hr className="sidebar-divider" />}
+
+        {/* Profile */}
+        <Link to="/profile" className={`nav-link ${location.pathname.includes('/profile') ? 'active' : ''}`}>
+          <FiUser className="nav-icon" />
+          {!collapsed && <span className="ms-2">Profile</span>}
         </Link>
       </nav>
 

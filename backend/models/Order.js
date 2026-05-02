@@ -24,12 +24,15 @@ const customerInfoSchema = new mongoose.Schema({
 }, { _id: false });
 
 const itemSchema = new mongoose.Schema({
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
   name: { type: String, required: true },
   title: { type: String },
   image: { type: String },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
-  category: { type: String }
+  category: { type: String },
+  variantLabel: { type: String },
+  variantIndex: { type: Number },
 }, { _id: false });
 
 const pricingSchema = new mongoose.Schema({
